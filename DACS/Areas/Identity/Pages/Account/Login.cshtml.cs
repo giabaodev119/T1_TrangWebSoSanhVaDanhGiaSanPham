@@ -123,7 +123,7 @@ namespace DACS.Areas.Identity.Pages.Account
                         var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
                         if (isAdmin)
                         {
-                            return Redirect("/Admin/Product/Index");
+                            return Redirect("/Admin/Home/Index");
                         }
                     }
                     return LocalRedirect(returnUrl);

@@ -8,7 +8,7 @@ namespace DACS.Migrations
     /// <inheritdoc />
     public partial class initDB : Migration
     {
-        /// <inheritdoc />
+        /// <inheritdoc />4
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
