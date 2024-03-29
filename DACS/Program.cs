@@ -1,7 +1,7 @@
 using DACS.DataAccess;
+using DACS.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-//using WebsiteBanHang.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +18,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 builder.Services.AddRazorPages();
 
 //builder.Services.AddScoped<IProductRepository, EFProductRepository>();
-//builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
+builder.Services.AddScoped<ICategory, EFCategory>();
 
 var app = builder.Build();
 
