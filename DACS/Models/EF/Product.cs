@@ -11,6 +11,8 @@ namespace DACS.Models.EF
         [Required(ErrorMessage = "Tên không được để trống")]
         [StringLength(250, ErrorMessage = "Không được vượt quá 150 ký tự")]
         public string Title { get; set; }
+        [Required]
+        public string Alias { get; set; }
         public string Description { get; set; }
         public string Detail { get; set; }
         public string Image { get; set; }
