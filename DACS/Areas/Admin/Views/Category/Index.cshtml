@@ -56,7 +56,7 @@
                         var i = 1;
                         foreach(var item in Model)
                         {
-                            <tr>
+                            <tr id ="trow_@item.Id">
                                 <td>@i</td>
                                 <td>@item.Title</td>
                                 <td>@item.Position</td>
@@ -65,7 +65,9 @@
                                     <a href="/admin/category/Delete/@item.Id" class="btn btn-sn btn-danger">Xóa</a>
                                 </td>
                             </tr>
+                            i++;
                         }
+                        
                     }
                     else
                     {

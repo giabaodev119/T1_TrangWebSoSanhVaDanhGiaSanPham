@@ -60,6 +60,9 @@ namespace DACS.Areas.Admin.Controllers
             }
             if (ModelState.IsValid)
             {
+                category.CreateDate = DateTime.Now;
+                category.ModifiedDate = DateTime.Now;
+                category.Alias = Models.Common.Filter.FilterChar(category.Title);
                 await _category.UpdateAsync(category);
                 return RedirectToAction(nameof(Index));
             }

@@ -36,7 +36,7 @@
         <div class="bs-stepper-content">
             <form asp-action="Add">
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
+                @Html.ValidationSummary(false)
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Title" class="control-label"></label>
@@ -67,22 +67,6 @@
                     <label asp-for="Position" class="control-label"></label>
                     <input asp-for="Position" class="form-control" />
                     <span asp-validation-for="Position" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CreateBy" class="control-label"></label>
-                    <input asp-for="CreateBy" class="form-control" />
-                    <span asp-validation-for="CreateBy" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ModifiedBy" class="control-label"></label>
-                    <input asp-for="ModifiedBy" class="form-control" />
-                    <span asp-validation-for="ModifiedBy" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Alias" class="control-label"></label>
-                    <h7>(Nhập giống title, không dấu, không viết hoa)</h7>
-                    <input asp-for="Alias" class="form-control" />
-                    <span asp-validation-for="Alias" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <a href="/admin/category" class="btn btn-primary">Quay lại</a>
