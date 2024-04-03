@@ -216,6 +216,8 @@
     <script src="~/clients/dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="~/clients/dist/js/demo.js"></script>
+    <script src="~/ck/ckfinder/ckfinder.js"></script>
+    <script src = "~/ck/ckeditor/ckeditor.js" ></script>
     <!-- Page specific script -->
     <script>
         $(function () {
@@ -350,6 +352,7 @@
             myDropzone.removeAllFiles(true)
         }
         // DropzoneJS Demo Code End
+        
         @RenderSection("scripts", required: false)
     </script>
 </body>
