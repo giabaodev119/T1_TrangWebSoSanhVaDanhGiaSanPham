@@ -1,7 +1,7 @@
-﻿@model DACS.Models.EF.News
+﻿@model DACS.Models.EF.Post
 @using Microsoft.AspNetCore.Mvc.Rendering
 @{
-    ViewData["Title"] = "Thêm mới tin tức";
+    ViewData["Title"] = "Thêm mới bài viết";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,11 +18,11 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Thêm mới tin tức</h1>
+                <h1>Thêm mới bài viết</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Tin tức</a></li>
+                    <li class="breadcrumb-item"><a href="#">Bài viết</a></li>
                     <li class="breadcrumb-item active">Thêm mới</li>
                 </ol>
             </div>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Detail" class="control-label"></label>
-                    <textarea asp-for="Detail" class="form-control" ></textarea></>
+                    <textarea asp-for="Detail" class="form-control"></textarea></>
                     <span asp-validation-for="Detail" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -79,7 +79,7 @@
                 </div>
                 <div class="form-group form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" asp-for="IsActive " /> 
+                        <input class="form-check-input" asp-for="IsActive " />
                         @Html.DisplayNameFor(model => model.IsActive)
                     </label>
                 </div>
@@ -101,7 +101,9 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
     <script>
         CKEDITOR.replace("Detail");
 

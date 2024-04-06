@@ -25,6 +25,7 @@ namespace DACS.Models.EF
         [StringLength(150)]
         public string SeoKeywords { get; set; }
         public int Position { get; set; }
+        public bool IsActive { get; set; }
         public ICollection<News> News { get; set;}
         public ICollection<Post> Posts { get; set; }
 

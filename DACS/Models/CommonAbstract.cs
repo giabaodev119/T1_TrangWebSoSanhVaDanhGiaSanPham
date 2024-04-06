@@ -3,7 +3,7 @@
     public abstract class CommonAbstract
     {
         public string? CreateBy { get; set; }
-        public DateTime CreateDate { get; set; }
+        public DateTime? CreateDate { get; set; }
 
         public DateTime ModifiedDate { get; set; }
 

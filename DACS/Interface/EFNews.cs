@@ -2,6 +2,8 @@
 using DACS.Interface;
 using DACS.Models.EF;
 using Microsoft.EntityFrameworkCore;
+using PagedList;
+using System.Drawing.Printing;
 
 namespace DACS.Interface
 {
@@ -15,7 +17,7 @@ namespace DACS.Interface
         public async Task AddAsync(News news)
         {
             _context.News.Add(news);
-            await _context.SaveChangesAsync();
+           await _context.SaveChangesAsync();
         }
 
         public async Task Delete(int id)
@@ -27,9 +29,10 @@ namespace DACS.Interface
 
         public async Task<IEnumerable<News>> GetAllAsync()
         {
+           
             return await _context.News.ToListAsync();
         }
-
+       
         public async Task<News> GetByIdAsync(int id)
         {
             return await _context.News.FindAsync(id);

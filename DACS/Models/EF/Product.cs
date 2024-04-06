@@ -11,17 +11,18 @@ namespace DACS.Models.EF
         [Required(ErrorMessage = "Tên không được để trống")]
         [StringLength(250, ErrorMessage = "Không được vượt quá 150 ký tự")]
         public string Title { get; set; }
-        [Required]
         public string? Alias { get; set; }
         public string Description { get; set; }
         public string Detail { get; set; }
-        public string Image { get; set; }
+        public string? ImageUrl { get; set; }
 
         public float Price { get; set; }
 
+        public string? Address { get; set; }
         public bool IsHome { get; set; }
         public bool IsFeature {  get; set; }
         public bool IsHot { get; set; }
+        public bool IsActive { get; set; }
 
         public int ProductCategoryId { get; set; }
 

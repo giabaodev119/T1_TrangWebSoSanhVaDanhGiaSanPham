@@ -2,54 +2,51 @@
 using DACS.Models.EF;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PagedList;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DACS.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
-    public class NewsController : Controller
+    public class PostController : Controller
     {
-        private readonly INews _news;
-        public NewsController(INews news)
+        private readonly IPost _post;
+        public PostController(IPost post)
         {
-            _news = news;
+            _post = post;
         }
         public async Task<IActionResult> Add()
         {
-            var news = await _news.GetAllAsync();
+            var post = await _post.GetAllAsync();
             return View();
         }
-        public async Task<IActionResult> Index(string Searchtext, int? page)
+        public async Task<IActionResult> Index(string Searchtext)
         {
-            var news = await _news.GetAllAsync();
-      
-            if (!string.IsNullOrEmpty(Searchtext)){
-                news = news.Where(news => news.Alias.Contains(Searchtext) || news.Title.Contains(Searchtext)).ToList();
+            var post = await _post.GetAllAsync();
+            if (!string.IsNullOrEmpty(Searchtext))
+            {
+                post = post.Where(post => post.Alias.Contains(Searchtext) || post.Title.Contains(Searchtext)).ToList();
             }
-            return View(news);
+            return View(post);
         }
-        
         [HttpPost]
-        public async Task<IActionResult> Add(News news, IFormFile imageUrl)
-        { 
+        public async Task<IActionResult> Add(Post post, IFormFile imageUrl)
+        {
             if (ModelState.IsValid)
             {
                 if (imageUrl != null)
                 {
                     // Lưu hình ảnh đại diện
-                    news.ImageUrl = await SaveImage(imageUrl);
+                    post.ImageUrl = await SaveImage(imageUrl);
                 }
-                news.CreateDate = DateTime.Now;
-                news.ModifiedDate = DateTime.Now;
-                news.Alias = Models.Common.Filter.FilterChar(news.Title);
-                await _news.AddAsync(news);
+                post.CreateDate = DateTime.Now;
+                post.ModifiedDate = DateTime.Now;
+                post.Alias = Models.Common.Filter.FilterChar(post.Title);
+                await _post.AddAsync(post);
                 return RedirectToAction(nameof(Index));
             }
             // Nếu ModelState không hợp lệ, hiển thị form với dữ liệu đã nhập
-            var news1 = await _news.GetAllAsync();
-            return View(news);
+            var posts = await _post.GetAllAsync();
+            return View(post);
         }
         private async Task<string> SaveImage(IFormFile image)
         {
@@ -62,50 +59,49 @@ namespace DACS.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Update(int id)
         {
-            var news = await _news.GetByIdAsync(id);
-            if (news == null)
+            var post = await _post.GetByIdAsync(id);
+            if (post == null)
             {
                 return NotFound();
             }
-            var news1 = await _news.GetAllAsync();
+            var posts = await _post.GetAllAsync();
 
-            return View(news);
+            return View(post);
         }
         // Xử lý cập nhật sản phẩm
         [HttpPost]
-        public async Task<IActionResult> Update(int id, News news)
+        public async Task<IActionResult> Update(int id, Post post)
         {
-            if (id != news.Id)
+            if (id != post.Id)
             {
                 return NotFound();
             }
             if (ModelState.IsValid)
             {
-                news.ModifiedDate = DateTime.Now;
-                news.Alias = Models.Common.Filter.FilterChar(news.Title);
-                await _news.UpdateAsync(news);
+                post.ModifiedDate = DateTime.Now;
+                post.Alias = Models.Common.Filter.FilterChar(post.Title);
+                await _post.UpdateAsync(post);
                 return RedirectToAction(nameof(Index));
             }
-            return View(news);
+            return View(post);
         }
 
         // Hiển thị form xác nhận xóa sản phẩm
         public async Task<IActionResult> Delete(int id)
         {
-            var news = await _news.GetByIdAsync(id);
-            if (news == null)
+            var post = await _post.GetByIdAsync(id);
+            if (post == null)
             {
                 return NotFound();
             }
-            return View(news);
+            return View(post);
         }
         // Xử lý xóa sản phẩm
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _news.Delete(id);
+            await _post.Delete(id);
             return RedirectToAction(nameof(Index));
         }
-     
     }
 }

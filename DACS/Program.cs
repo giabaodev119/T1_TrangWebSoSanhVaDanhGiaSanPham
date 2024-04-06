@@ -17,8 +17,10 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 
 builder.Services.AddRazorPages();
 
-builder.Services.AddScoped<INews, EFNews>();
+
 builder.Services.AddScoped<ICategory, EFCategory>();
+builder.Services.AddScoped<INews, EFNews>();
+builder.Services.AddScoped<IPost, EFPost>();
 
 var app = builder.Build();
 

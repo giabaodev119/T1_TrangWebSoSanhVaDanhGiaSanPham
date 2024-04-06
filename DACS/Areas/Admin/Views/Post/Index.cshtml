@@ -1,7 +1,7 @@
-﻿@model IEnumerable<DACS.Models.EF.News>
+﻿@model IEnumerable<DACS.Models.EF.Post>
 
 @{
-    ViewData["Title"] = "Tin Tức";
+    ViewData["Title"] = "Bài Viết";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -17,12 +17,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Quản lý tin tức</h1>
+                <h1>Quản lý bài viết</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Tin Tức</li>
+                    <li class="breadcrumb-item active">Bài viết</li>
                 </ol>
             </div>
         </div>
@@ -34,16 +34,15 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Danh sách tin tức</h3>
-
+            <h3 class="card-title">Danh sách bài viết</h3>
             <div class="card-tools">
-                <a href="/admin/news/Add" class="btn btn-primary">Thêm mới</a>
+                <a href="/admin/post/Add" class="btn btn-primary">Thêm mới</a>
             </div>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-6">
-                    @using (Html.BeginForm("index","News", FormMethod.Get, new { }))
+                    @using (Html.BeginForm("index", "Post", FormMethod.Get, new { }))
                     {
                         <div class="input-group input-group-sm">
                             @Html.TextBox("Searchtext")
@@ -58,9 +57,9 @@
                 <thead>
                     <tr>
                         <th>STT</th>
-                        <th >Hình ảnh</th>
-                        <th >Tiêu đề</th>
-                        <th >Ngày tạo</th>
+                        <th>Hình ảnh</th>
+                        <th>Tiêu đề</th>
+                        <th>Ngày tạo</th>
                         <th class="text-center">Hiển thị</th>
                         <th></th>
                     </tr>
@@ -71,11 +70,13 @@
                         var i = 1;
                         foreach (var item in Model)
                         {
+
+
                             var strCheck = item.IsActive ? "<i class='fa fa-check text-success'></i>" : "<i class='fas fa-times text-danger'></i>";
                             <tr id="trow_@item.Id">
                                 <td>@i</td>
                                 <td>
-                                    <img src=" @Html.DisplayFor(Model => item.ImageUrl)" alt="New Image" width="100" >
+                                    <img src=" @Html.DisplayFor(Model => item.ImageUrl)" alt="New Image" width="100">
                                 </td>
                                 <td>@item.Title</td>
                                 <td>@item.CreateDate</td>
@@ -83,13 +84,13 @@
                                     <a href='#' data-id="@item.Id">@Html.Raw(strCheck)</a>
                                 </td>
                                 <td>
-                                    <a href="/admin/news/Update/@item.Id" class="btn btn-sn btn-primary">Sửa</a>
-                                    <a href="/admin/news/Delete/@item.Id" class="btn btn-sn btn-danger">Xóa</a>
+                                    <a href="/admin/post/Update/@item.Id" class="btn btn-sn btn-primary">Sửa</a>
+                                    <a href="/admin/post/Delete/@item.Id" class="btn btn-sn btn-danger">Xóa</a>
                                 </td>
                             </tr>
                             i++;
                         }
-                        
+
                     }
                     else
                     {
@@ -97,7 +98,7 @@
                             <td colspan="4">Không có bản ghi nào</td>
                         </tr>
                     }
-                    
+
                 </tbody>
             </table>
         </div>
