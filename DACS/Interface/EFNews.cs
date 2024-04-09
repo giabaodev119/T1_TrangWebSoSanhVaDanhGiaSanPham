@@ -2,7 +2,6 @@
 using DACS.Interface;
 using DACS.Models.EF;
 using Microsoft.EntityFrameworkCore;
-using PagedList;
 using System.Drawing.Printing;
 
 namespace DACS.Interface

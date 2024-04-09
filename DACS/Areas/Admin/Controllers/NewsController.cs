@@ -2,7 +2,7 @@
 using DACS.Models.EF;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PagedList;
+using X.PagedList;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DACS.Areas.Admin.Controllers
@@ -24,11 +24,16 @@ namespace DACS.Areas.Admin.Controllers
         public async Task<IActionResult> Index(string Searchtext, int? page)
         {
             var news = await _news.GetAllAsync();
-      
+            if(page == null)
+            {
+                page = 1;
+            }
+            int pageSize = 3;
+            int pageNum = page ?? 1;
             if (!string.IsNullOrEmpty(Searchtext)){
                 news = news.Where(news => news.Alias.Contains(Searchtext) || news.Title.Contains(Searchtext)).ToList();
             }
-            return View(news);
+            return View(news.ToPagedList(pageNum,pageSize));
         }
         
         [HttpPost]

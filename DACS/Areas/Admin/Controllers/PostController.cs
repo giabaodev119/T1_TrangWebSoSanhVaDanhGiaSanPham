@@ -2,6 +2,7 @@
 using DACS.Models.EF;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList;
 
 namespace DACS.Areas.Admin.Controllers
 {
@@ -19,14 +20,20 @@ namespace DACS.Areas.Admin.Controllers
             var post = await _post.GetAllAsync();
             return View();
         }
-        public async Task<IActionResult> Index(string Searchtext)
+        public async Task<IActionResult> Index(string Searchtext, int? page)
         {
             var post = await _post.GetAllAsync();
+            if (page == null)
+            {
+                page = 1;
+            }
+            int pageSize = 3;
+            int pageNum = page ?? 1;
             if (!string.IsNullOrEmpty(Searchtext))
             {
                 post = post.Where(post => post.Alias.Contains(Searchtext) || post.Title.Contains(Searchtext)).ToList();
             }
-            return View(post);
+            return View(post.ToPagedList(pageNum, pageSize));
         }
         [HttpPost]
         public async Task<IActionResult> Add(Post post, IFormFile imageUrl)
