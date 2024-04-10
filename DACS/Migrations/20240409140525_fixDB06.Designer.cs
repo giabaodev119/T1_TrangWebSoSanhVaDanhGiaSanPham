@@ -4,6 +4,7 @@ using DACS.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DACS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240409140525_fixDB06")]
+    partial class fixDB06
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,14 +103,17 @@ namespace DACS.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SeoDescription")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("SeoKeywords")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("SeoTitle")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -209,12 +215,15 @@ namespace DACS.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SeoDescription")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SeoKeywords")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SeoTitle")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -270,12 +279,15 @@ namespace DACS.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SeoDescription")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SeoKeywords")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SeoTitle")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -297,9 +309,6 @@ namespace DACS.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<float?>("AddressAndPrice")
-                        .HasColumnType("real");
 
                     b.Property<string>("Alias")
                         .HasColumnType("nvarchar(max)");
@@ -344,12 +353,15 @@ namespace DACS.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SeoDescription")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SeoKeywords")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SeoTitle")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -357,6 +369,34 @@ namespace DACS.Migrations
                     b.HasIndex("ProductCategoryId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("DACS.Models.EF.ProductAddress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProductId1")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId1");
+
+                    b.ToTable("ProductAddress");
                 });
 
             modelBuilder.Entity("DACS.Models.EF.ProductCategory", b =>
@@ -424,8 +464,6 @@ namespace DACS.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("ProductImages");
                 });
@@ -678,13 +716,11 @@ namespace DACS.Migrations
                     b.Navigation("ProductCategory");
                 });
 
-            modelBuilder.Entity("DACS.Models.EF.ProductImage", b =>
+            modelBuilder.Entity("DACS.Models.EF.ProductAddress", b =>
                 {
                     b.HasOne("DACS.Models.EF.Product", null)
-                        .WithMany("ProductsImage")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("ProductAddress")
+                        .HasForeignKey("ProductId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -747,7 +783,7 @@ namespace DACS.Migrations
 
             modelBuilder.Entity("DACS.Models.EF.Product", b =>
                 {
-                    b.Navigation("ProductsImage");
+                    b.Navigation("ProductAddress");
                 });
 
             modelBuilder.Entity("DACS.Models.EF.ProductCategory", b =>

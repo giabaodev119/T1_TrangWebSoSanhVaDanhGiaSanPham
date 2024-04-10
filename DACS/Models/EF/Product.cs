@@ -10,26 +10,20 @@ namespace DACS.Models.EF
         public int Id { get; set; }
         [Required(ErrorMessage = "Tên không được để trống")]
         [StringLength(250, ErrorMessage = "Không được vượt quá 150 ký tự")]
-        public string Title { get; set; }
+        public string Name { get; set; }
         public string? Alias { get; set; }
-        public string Description { get; set; }
         public string Detail { get; set; }
+        public float? AddressAndPrice { get; set; }
         public string? ImageUrl { get; set; }
-
-        public float Price { get; set; }
-
-        public string? Address { get; set; }
         public bool IsHome { get; set; }
         public bool IsFeature {  get; set; }
         public bool IsHot { get; set; }
         public bool IsActive { get; set; }
-
         public int ProductCategoryId { get; set; }
-
-        public string SeoTitle { get; set; }
-        public string SeoDescription { get; set; }
-        public string SeoKeywords { get; set; }
-
-        public virtual ProductCategory ProductCategory { get; set; }
+        public string? SeoTitle { get; set; }
+        public string? SeoDescription { get; set; }
+        public string? SeoKeywords { get; set; }
+        public virtual ProductCategory? ProductCategory { get; set; }
+        public ICollection<ProductImage> ProductsImage { get; set; }
     }
 }

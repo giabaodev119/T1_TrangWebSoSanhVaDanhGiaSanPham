@@ -21,6 +21,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<ICategory, EFCategory>();
 builder.Services.AddScoped<INews, EFNews>();
 builder.Services.AddScoped<IPost, EFPost>();
+builder.Services.AddScoped<IProductCategory, EFProductCategory>();
+builder.Services.AddScoped<IProduct, EFProduct>();
 
 var app = builder.Build();
 

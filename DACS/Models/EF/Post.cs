@@ -16,9 +16,9 @@ namespace DACS.Models.EF
         public string Detail { get; set; }
         public string? ImageUrl { get; set; }
         public int? CategoryId { get; set; }
-        public string SeoTitle { get; set; }
-        public string SeoDescription { get; set; }
-        public string SeoKeywords { get; set; }
+        public string? SeoTitle { get; set; }
+        public string? SeoDescription { get; set; }
+        public string? SeoKeywords { get; set; }
         public bool IsActive { get; set; }
         public virtual Category? Category { get; set; }
 
