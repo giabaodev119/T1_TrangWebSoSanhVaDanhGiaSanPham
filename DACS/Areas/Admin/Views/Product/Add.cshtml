@@ -31,116 +31,11 @@
 </section>
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Thông tin sản phẩm</h3>
+        <h3 class="card-title">Nội dung bài viết</h3>
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header p-2">
-                        <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Thông tin chung</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Hình ảnh</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">SEO</a></li>
-                        </ul>
-                    </div><!-- /.card-header -->
-                    <div class="card-body">
-                        <div class="tab-content">
-                            <div class="active tab-pane" id="activity">
-                                <form asp-action="Add">
-                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                    <div class="form-group">
-                                        <label asp-for="Name" class="control-label">Tên sản phẩm</label>
-                                        <input asp-for="Name" class="form-control" />
-                                        <span asp-validation-for="Name" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label asp-for="ProductCategoryId" class="control-label">Danh mục</label>
-                                        <select asp-for="ProductCategoryId" class="form-control" asp-items="ViewBag.ProductCategory"></select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label asp-for="Detail" class="control-label"></label>
-                                        <textarea asp-for="Detail" class="form-control"></textarea></>
-                                        <span asp-validation-for="Detail" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label asp-for="AddressAndPrice" class="control-label">Địa chỉ và giá bán tham khảo</label>
-                                        <textarea asp-for="AddressAndPrice" class="form-control"></textarea></>
-                                        <span asp-validation-for="AddressAndPrice" class="text-danger"></span>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <div class="form-group form-check">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <div class="form-group form-check">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" asp-for="IsFeature" /> @Html.DisplayNameFor(model => model.IsFeature)
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <div class="form-group form-check">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" asp-for="IsHot" /> @Html.DisplayNameFor(model => model.IsHot)
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <!-- /.tab-pane -->
-                            <div class="tab-pane" id="timeline">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Ảnh</th>
-                                                    <th>Ảnh đại diện</th>
-                                                    <th>Thao tác</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-                            <div class="tab-pane" id="settings">
-                                <form asp-action="Add">
-                                    <div class="form-group">
-                                        <label asp-for="SeoTitle" class="control-label">SEO Title</label>
-                                        <textarea asp-for="SeoTitle" class="form-control"></textarea></>
-                                        <span asp-validation-for="SeoTitle" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label asp-for="SeoKeywords" class="control-label">SEO Keywords</label>
-                                        <textarea asp-for="SeoKeywords" class="form-control"></textarea></>
-                                        <span asp-validation-for="SeoKeywords" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label asp-for="SeoDescription" class="control-label">SEO Description</label>
-                                        <textarea asp-for="SeoDescription" class="form-control"></textarea></>
-                                        <span asp-validation-for="SeoDescription" class="text-danger"></span>
-                                    </div>
-                                </form>
-                            </div>
-                            <!-- /.tab-pane -->
-                        </div>
-                        <!-- /.tab-content -->
-                    </div><!-- /.card-body -->
-                </div>
-            </div>
-            @* <form asp-action="Add">
+        <div class="bs-stepper-content">
+            <form asp-action="Add">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Name" class="control-label">Tên sản phẩm</label>
@@ -149,7 +44,12 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="ProductCategoryId" class="control-label">Danh mục</label>
-                    <select asp-for="ProductCategoryId" class="form-control" asp-items="ViewBag.ProductCategoryId"></select>
+                    <select asp-for="ProductCategoryId" class="form-control" asp-items="ViewBag.ProductCategory"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageUrl" class="control-label"></label>
+                    <input type="file" asp-for="ImageUrl" class="form-control" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Detail" class="control-label"></label>
@@ -161,46 +61,60 @@
                     <textarea asp-for="AddressAndPrice" class="form-control"></textarea></>
                     <span asp-validation-for="AddressAndPrice" class="text-danger"></span>
                 </div>
+                <div class="row">
+                    <div class="col-3">
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="IsFeature" /> @Html.DisplayNameFor(model => model.IsFeature)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="IsHot" /> @Html.DisplayNameFor(model => model.IsHot)
+                            </label>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group">
-                    <label asp-for="ImageUrl" class="control-label"></label>
-                    <input asp-for="ImageUrl" class="form-control" />
-                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="IsHome" /> @Html.DisplayNameFor(model => model.IsHome)
-                    </label>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="IsFeature" /> @Html.DisplayNameFor(model => model.IsFeature)
-                    </label>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="IsHot" /> @Html.DisplayNameFor(model => model.IsHot)
-                    </label>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                    </label>
+                    <label asp-for="SeoTitle" class="control-label">SEO Title</label>
+                    <textarea asp-for="SeoTitle" class="form-control"></textarea></>
+                    <span asp-validation-for="SeoTitle" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <label asp-for="SeoKeywords" class="control-label">SEO Keywords</label>
+                    <textarea asp-for="SeoKeywords" class="form-control"></textarea></>
+                    <span asp-validation-for="SeoKeywords" class="text-danger"></span>
                 </div>
-            </form> *@
+                <div class="form-group">
+                    <label asp-for="SeoDescription" class="control-label">SEO Description</label>
+                    <textarea asp-for="SeoDescription" class="form-control"></textarea></>
+                    <span asp-validation-for="SeoDescription" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div>
+                        <a asp-action="Index" class="btn btn-primary">Back to List</a> |
+                        <input type="submit" value="Create" class="btn btn-warning" /> 
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-    
+
     <!-- /.card-body -->
     <div class="card-footer">
     </div>
     <!-- /.card-footer-->
-</div>
-
-<div>
-    <a asp-action="Index" class="btn btn-primary">Back to List</a>
 </div>
 
 @section Scripts {
