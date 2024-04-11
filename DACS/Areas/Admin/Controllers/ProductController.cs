@@ -32,6 +32,8 @@ namespace DACS.Areas.Admin.Controllers
             {
                 product = product.Where(product => product.Alias.Contains(Searchtext) || product.Name.Contains(Searchtext)).ToList();
             }
+            var category = await _productcategory.GetAllAsync();
+            ViewBag.ProductCategory = new SelectList(category, "Id", "Name");
             return View(product.ToPagedList(pageNum, pageSize));
         }
         public async Task<IActionResult> Add()
@@ -58,6 +60,8 @@ namespace DACS.Areas.Admin.Controllers
             }
             // Nếu ModelState không hợp lệ, hiển thị form với dữ liệu đã nhập
             var products = await _product.GetAllAsync();
+            var category = await _productcategory.GetAllAsync();
+            ViewBag.ProductCategory = new SelectList(category, "Id", "Name");
             return View(product);
         }
         private async Task<string> SaveImage(IFormFile image)
@@ -77,7 +81,8 @@ namespace DACS.Areas.Admin.Controllers
                 return NotFound();
             }
             var products = await _product.GetAllAsync();
-
+            var category = await _productcategory.GetAllAsync();
+            ViewBag.ProductCategory = new SelectList(category, "Id", "Name");
             return View(product);
         }
         // Xử lý cập nhật sản phẩm
@@ -90,11 +95,14 @@ namespace DACS.Areas.Admin.Controllers
             }
             if (ModelState.IsValid)
             {
+                product.CreateDate = DateTime.Now;
                 product.ModifiedDate = DateTime.Now;
                 product.Alias = Models.Common.Filter.FilterChar(product.Name);
                 await _product.UpdateAsync(product);
                 return RedirectToAction(nameof(Index));
             }
+            var category = await _productcategory.GetAllAsync();
+            ViewBag.ProductCategory = new SelectList(category, "Id", "Name");
             return View(product);
         }
 

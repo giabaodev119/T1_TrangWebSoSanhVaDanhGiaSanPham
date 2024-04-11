@@ -13,7 +13,7 @@ namespace DACS.Models.EF
         public string Name { get; set; }
         public string? Alias { get; set; }
         public string Detail { get; set; }
-        public float? AddressAndPrice { get; set; }
+        public string? AddressAndPrice { get; set; }
         public string? ImageUrl { get; set; }
         public bool IsHome { get; set; }
         public bool IsFeature {  get; set; }
@@ -24,6 +24,5 @@ namespace DACS.Models.EF
         public string? SeoDescription { get; set; }
         public string? SeoKeywords { get; set; }
         public virtual ProductCategory? ProductCategory { get; set; }
-        public ICollection<ProductImage> ProductsImage { get; set; }
     }
 }

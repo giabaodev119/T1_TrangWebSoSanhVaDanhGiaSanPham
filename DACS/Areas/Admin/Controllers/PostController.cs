@@ -85,6 +85,7 @@ namespace DACS.Areas.Admin.Controllers
             }
             if (ModelState.IsValid)
             {
+                post.CreateDate = DateTime.Now;
                 post.ModifiedDate = DateTime.Now;
                 post.Alias = Models.Common.Filter.FilterChar(post.Title);
                 await _post.UpdateAsync(post);

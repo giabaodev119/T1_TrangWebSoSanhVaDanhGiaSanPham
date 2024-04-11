@@ -62,7 +62,6 @@ section class="content-header">
                         <th>Tên sản phẩm</th>
                         <th>Danh mục</th>
                         <th>Địa chỉ và giá tham khảo</th>
-                        <th>Địa chỉ</th>
                         <th>Ngày tạo</th>
                         <th class="text-center">Hiển thị</th>
                         <th></th>
@@ -84,14 +83,16 @@ section class="content-header">
                                 </td>
                                 <td>@item.Name</td>
                                 <td>@item.ProductCategory.Name</td>
-                                <td>@item.AddressAndPrice</td>
+                                <td>
+                                    @Html.Raw(item.AddressAndPrice)
+                                </td>
                                 <td>@item.CreateDate</td>
                                 <td class="text-center">
                                     <a href='#' data-id="@item.Id">@Html.Raw(strCheck)</a>
                                 </td>
                                 <td>
-                                    <a href="/admin/post/Update/@item.Id" class="btn btn-sn btn-primary">Sửa</a>
-                                    <a href="/admin/post/Delete/@item.Id" class="btn btn-sn btn-danger">Xóa</a>
+                                    <a href="/admin/product/Update/@item.Id" class="btn btn-sn btn-primary">Sửa</a>
+                                    <a href="/admin/product/Delete/@item.Id" class="btn btn-sn btn-danger">Xóa</a>
                                 </td>
                             </tr>
                             i++;
