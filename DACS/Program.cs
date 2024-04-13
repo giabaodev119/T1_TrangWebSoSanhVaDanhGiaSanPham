@@ -1,5 +1,6 @@
 using DACS.DataAccess;
 using DACS.Interface;
+using DACS.Models.EF;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
