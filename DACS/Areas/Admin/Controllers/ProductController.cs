@@ -81,28 +81,58 @@ namespace DACS.Areas.Admin.Controllers
                 return NotFound();
             }
             var products = await _product.GetAllAsync();
+            ViewData["CreateAt"]= product.CreateDate;
             var category = await _productcategory.GetAllAsync();
             ViewBag.ProductCategory = new SelectList(category, "Id", "Name");
             return View(product);
         }
         // Xử lý cập nhật sản phẩm
         [HttpPost]
-        public async Task<IActionResult> Update(int id, Product product)
+        public async Task<IActionResult> Update(int id, Product product, IFormFile imageUrl)
         {
+            ModelState.Remove("ImageUrl"); // Loại bỏ xác thực ModelState cho ImageUrl
             if (id != product.Id)
             {
                 return NotFound();
             }
+
+
             if (ModelState.IsValid)
             {
-                product.CreateDate = DateTime.Now;
-                product.ModifiedDate = DateTime.Now;
-                product.Alias = Models.Common.Filter.FilterChar(product.Name);
-                await _product.UpdateAsync(product);
+                var existingProduct = await _product.GetByIdAsync(id); // Giả định có phương thức GetByIdAsync
+
+
+                // Giữ nguyên thông tin hình ảnh nếu không có hình mới được tải lên
+                if (imageUrl == null)
+                {
+                    product.ImageUrl = existingProduct.ImageUrl;
+                }
+                else
+                {
+                    // Lưu hình ảnh mới
+                    product.ImageUrl = await SaveImage(imageUrl);
+                }
+                // Cập nhật các thông tin khác của sản phẩm
+                existingProduct.Name = product.Name;
+                existingProduct.Detail = product.Detail;
+                existingProduct.AddressAndPrice = product.AddressAndPrice;
+                existingProduct.ProductCategoryId = product.ProductCategoryId;
+                existingProduct.IsFeature = product.IsFeature;
+                existingProduct.IsHot = product.IsHot;
+                existingProduct.IsActive = product.IsActive;
+                existingProduct.SeoDescription = product.SeoDescription;
+                existingProduct.SeoKeywords = product.SeoKeywords;
+                existingProduct.SeoTitle = product.SeoTitle;
+                existingProduct.ModifiedDate = product.ModifiedDate;
+                existingProduct.Alias = Models.Common.Filter.FilterChar(product.Name);
+                existingProduct.ImageUrl = product.ImageUrl;
+
+                await _product.UpdateAsync(existingProduct);
+
                 return RedirectToAction(nameof(Index));
             }
-            var category = await _productcategory.GetAllAsync();
-            ViewBag.ProductCategory = new SelectList(category, "Id", "Name");
+            var categories = await _productcategory.GetAllAsync();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
             return View(product);
         }
 

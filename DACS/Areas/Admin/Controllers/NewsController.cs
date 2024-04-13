@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Hosting;
 
 namespace DACS.Areas.Admin.Controllers
 {
@@ -73,23 +74,49 @@ namespace DACS.Areas.Admin.Controllers
                 return NotFound();
             }
             var news1 = await _news.GetAllAsync();
-
+            ViewData["CreateAt"] = news.CreateDate;
             return View(news);
         }
         // Xử lý cập nhật sản phẩm
         [HttpPost]
-        public async Task<IActionResult> Update(int id, News news)
+        public async Task<IActionResult> Update(int id, News news, IFormFile imageUrl)
         {
+            ModelState.Remove("ImageUrl"); // Loại bỏ xác thực ModelState cho ImageUrl
             if (id != news.Id)
             {
                 return NotFound();
             }
+
+
             if (ModelState.IsValid)
             {
-                news.CreateDate = DateTime.Now;
-                news.ModifiedDate = DateTime.Now;
-                news.Alias = Models.Common.Filter.FilterChar(news.Title);
-                await _news.UpdateAsync(news);
+                var existingProduct = await _news.GetByIdAsync(id); // Giả định có phương thức GetByIdAsync
+
+
+                // Giữ nguyên thông tin hình ảnh nếu không có hình mới được tải lên
+                if (imageUrl == null)
+                {
+                    news.ImageUrl = existingProduct.ImageUrl;
+                }
+                else
+                {
+                    // Lưu hình ảnh mới
+                    news.ImageUrl = await SaveImage(imageUrl);
+                }
+                // Cập nhật các thông tin khác của sản phẩm
+                existingProduct.Title = news.Title;
+                existingProduct.Detail = news.Detail;
+                existingProduct.Description = news.Description;
+                existingProduct.IsActive = news.IsActive;
+                existingProduct.SeoDescription = news.SeoDescription;
+                existingProduct.SeoKeywords = news.SeoKeywords;
+                existingProduct.SeoTitle = news.SeoTitle;
+                existingProduct.ModifiedDate = news.ModifiedDate;
+                existingProduct.Alias = Models.Common.Filter.FilterChar(news.Title);
+                existingProduct.ImageUrl = news.ImageUrl;
+
+                await _news.UpdateAsync(existingProduct);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(news);

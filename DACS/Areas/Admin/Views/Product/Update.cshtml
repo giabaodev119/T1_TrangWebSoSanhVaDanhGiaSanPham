@@ -34,22 +34,17 @@
     </div>
     <div class="card-body">
         <div class="bs-stepper-content">
-            <form asp-action="Update">
+            <form asp-action="Update" method="post" enctype="multipart/form-data">
                 @Html.ValidationSummary(false)
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Id" />
                 <div class="form-group">
-                    <label asp-for="Name" class="control-label"></label>
+                    <label asp-for="Name" class="control-label">Tên sản phẩm</label>
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Alias" class="control-label"></label>
-                    <input asp-for="Alias" class="form-control" />
-                    <span asp-validation-for="Alias" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Detail" class="control-label"></label>
+                    <label asp-for="Detail" class="control-label">Chi tiết</label>
                     <textarea asp-for="Detail" class="form-control"></textarea></>
                     <span asp-validation-for="Detail" class="text-danger"></span>
                 </div>
@@ -59,8 +54,8 @@
                     <span asp-validation-for="AddressAndPrice" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="ImageUrl" class="control-label"></label>
-                    <input asp-for="ImageUrl" class="form-control" />
+                    <label asp-for="ImageUrl" class="control-label">Chọn ảnh</label>
+                    <input type="file" asp-for="ImageUrl" class="form-control" />
                     <span asp-validation-for="ImageUrl" class="text-danger"></span>
                 </div>
                 <div class="form-group form-check">
@@ -96,6 +91,12 @@
                     <label asp-for="SeoKeywords" class="control-label"></label>
                     <input asp-for="SeoKeywords" class="form-control" />
                     <span asp-validation-for="SeoKeywords" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label  class="col-sm-4 col-form-label">Create At</label>
+                    <div class="col-sm-8">
+                        <input a class="form-control-plaintext" readonly value="@ViewData["CreateAt"]" />
+                    </div>
                 </div>
                 <div class="row">
                     <div>

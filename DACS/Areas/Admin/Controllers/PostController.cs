@@ -72,23 +72,49 @@ namespace DACS.Areas.Admin.Controllers
                 return NotFound();
             }
             var posts = await _post.GetAllAsync();
-
+            ViewData["CreateAt"] = post.CreateDate;
             return View(post);
         }
         // Xử lý cập nhật sản phẩm
         [HttpPost]
-        public async Task<IActionResult> Update(int id, Post post)
+        public async Task<IActionResult> Update(int id, Post post, IFormFile imageUrl)
         {
+            ModelState.Remove("ImageUrl"); // Loại bỏ xác thực ModelState cho ImageUrl
             if (id != post.Id)
             {
                 return NotFound();
             }
+
+
             if (ModelState.IsValid)
             {
-                post.CreateDate = DateTime.Now;
-                post.ModifiedDate = DateTime.Now;
-                post.Alias = Models.Common.Filter.FilterChar(post.Title);
-                await _post.UpdateAsync(post);
+                var existingProduct = await _post.GetByIdAsync(id); // Giả định có phương thức GetByIdAsync
+
+
+                // Giữ nguyên thông tin hình ảnh nếu không có hình mới được tải lên
+                if (imageUrl == null)
+                {
+                    post.ImageUrl = existingProduct.ImageUrl;
+                }
+                else
+                {
+                    // Lưu hình ảnh mới
+                    post.ImageUrl = await SaveImage(imageUrl);
+                }
+                // Cập nhật các thông tin khác của sản phẩm
+                existingProduct.Title = post.Title;
+                existingProduct.Detail = post.Detail;
+                existingProduct.Description = post.Description;
+                existingProduct.IsActive = post.IsActive;
+                existingProduct.SeoDescription = post.SeoDescription;
+                existingProduct.SeoKeywords = post.SeoKeywords;
+                existingProduct.SeoTitle = post.SeoTitle;
+                existingProduct.ModifiedDate = post.ModifiedDate;
+                existingProduct.Alias = Models.Common.Filter.FilterChar(post.Title);
+                existingProduct.ImageUrl = post.ImageUrl;
+
+                await _post.UpdateAsync(existingProduct);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(post);
