@@ -1,0 +1,66 @@
+﻿@model DACS.Models.EF.CheckingCart
+@section naviheader {
+    <div class="header">
+        <div class="container">
+            <div class="navbar">
+                <nav>
+                    <ul id="MenuItems">
+                        <li><a href="/user/home/index">Home</a></li>
+                        <li><a href="/user/post/index">Bài viết</a></li>
+                        <li><a href="/user/news/index">Tin tức</a></li>
+                        <li><a href="/user/compare/index">So sánh sản phẩm</a></li>
+                        <li><partial name="_LoginPartial" /></li>
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+}
+
+  
+@*  @foreach (var item in Model.Items) 
+    { 
+<table> 
+
+        <tr>
+             <td>@item.Name</td> 
+
+            <td> 
+                <button asp-action="RemoveFromCart" asp-route-productId="@item.ProductId">Remove</button> 
+            </td> 
+        </tr> 
+     
+</table>
+    } *@
+<div class="small-container">
+    <h2 class="title">
+        Products Display
+    </h2>
+    <div class="row">
+
+          
+            @foreach (var item in Model.Items)
+            {
+                <div class="col-4">
+
+
+
+                    <div class="card">
+						<img src="@item.ImageUrl" alt="Product Image" style="max-width: 200px;" />
+						<h2>@item.Name</h2>
+                        <h3>@Html.Raw(item.Detail)</h3>
+                        <h3>@Html.Raw(item.AddressAndPrice)</h3>
+                        <a asp-action="Display" asp-route-id="@item.ProductId">Details</a>
+						<a asp-action="RemoveFromCart" asp-route-productId="@item.ProductId">Remove</a>
+
+
+                    </div>
+
+                    </div>
+
+            }
+            
+
+    </div>
+</div>

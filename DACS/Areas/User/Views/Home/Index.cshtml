@@ -10,11 +10,12 @@
             <div class="navbar">
                 <nav>
                     <ul id="MenuItems">
-                        <li><a href="/user/home/index">Home</a></li>
-                        <li><a href="/user/compare/index">So sánh sản phẩm</a></li>
+                        <li><a href="/user/home/index">Home</a></li>                    
                         <li><a href="/user/post/index">Bài viết</a></li>
                         <li><a href="/user/news/index">Tin tức</a></li>
+                        <li><a href="/user/checkingcart/index">So sánh sản phẩm</a></li>
                         <li><partial name="_LoginPartial" /></li>
+
                     </ul>
                 </nav>
             </div>
@@ -39,7 +40,7 @@
                             <h5 class="card-title">
                                 @Html.DisplayFor(modelItem => product.Name)
                             </h5>
-                            <form method="post" action="@Url.Action("AddToCompare", "Compare")">
+                            <form method="post" action="@Url.Action("AddToCart", "CheckingCart")">
                                 <input type="hidden" name="productId" value="@product.Id" />
                                 <input type="hidden" name="quantity" value="1" />
                                 <div class="row">
