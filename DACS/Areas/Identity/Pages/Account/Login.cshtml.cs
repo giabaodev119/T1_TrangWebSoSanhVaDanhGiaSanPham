@@ -121,9 +121,20 @@ namespace DACS.Areas.Identity.Pages.Account
                     if (user != null)
                     {
                         var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+                        var isChecker = await _userManager.IsInRoleAsync(user, "Checker");
+                        var isUser= await _userManager.IsInRoleAsync(user, "User");
                         if (isAdmin)
                         {
                             return Redirect("/Admin/Home/Index");
+                        }
+                        else if (isChecker)
+                        {
+                            return Redirect("/Checker/Home/Index");
+                        }
+                        else 
+                        {
+                            return Redirect("/User/Home/Index");
+
                         }
                     }
                     return LocalRedirect(returnUrl);

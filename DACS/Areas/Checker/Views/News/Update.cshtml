@@ -1,0 +1,118 @@
+﻿@model DACS.Models.EF.News
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Areas/Checker/Views/Shared/_Layout.cshtml";
+}
+
+@section naviheader {
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+    </ul>
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Chỉnh sửa tin tức</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Tin tức</a></li>
+                    <li class="breadcrumb-item active">Chỉnh sửa</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Nội dung bài viết</h3>
+    </div>
+    <div class="card-body">
+        <div class="bs-stepper-content">
+            <form asp-action="Update" method="post" enctype="multipart/form-data">
+                @Html.ValidationSummary(false)
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Detail" class="control-label"></label>
+                    <textarea asp-for="Detail" class="form-control"></textarea></>
+                    <span asp-validation-for="Detail" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageUrl" class="control-label">Chọn ảnh</label>
+                    <input type="file" asp-for="ImageUrl" class="form-control" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryId" class="control-label"></label>
+                    <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SeoTitle" class="control-label"></label>
+                    <input asp-for="SeoTitle" class="form-control" />
+                    <span asp-validation-for="SeoTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SeoDescription" class="control-label"></label>
+                    <input asp-for="SeoDescription" class="form-control" />
+                    <span asp-validation-for="SeoDescription" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SeoKeywords" class="control-label"></label>
+                    <input asp-for="SeoKeywords" class="form-control" />
+                    <span asp-validation-for="SeoKeywords" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 col-form-label">Create At</label>
+                    <div class="col-sm-8">
+                        <input a class="form-control-plaintext" readonly value="@ViewData["CreateAt"]" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <a asp-action="Index" class="btn btn-primary">Back to List</a>|
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- /.card-body -->
+    <div class="card-footer">
+    </div>
+    <!-- /.card-footer-->
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        CKEDITOR.replace("Detail");
+
+    </script>
+}
+
