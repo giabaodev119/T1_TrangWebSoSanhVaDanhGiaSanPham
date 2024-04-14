@@ -1,0 +1,60 @@
+﻿@model IEnumerable<DACS.Models.EF.Product>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+
+@section naviheader {
+    <div class="header">
+        <div class="container">
+            <div class="navbar">
+                <nav>
+                    <ul id="MenuItems">
+                        <li><a href="/user/home/index">Home</a></li>
+                        <li><a href="/user/compare/index">So sánh sản phẩm</a></li>
+                        <li><a href="/user/post/index">Bài viết</a></li>
+                        <li><a href="/user/news/index">Tin tức</a></li>
+                        <li><partial name="_LoginPartial" /></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+}
+<section class="py-2">
+    <div class="small-container">
+        <h2 class="title">
+            Sản phẩm 
+        </h2>
+    </div>
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"> 
+            @foreach (var product in Model)
+            {
+                <div class="col mb-5">
+                    <div class="card gap-3" style="width: 18rem">
+                        <img src="@product.ImageUrl" class="card-img-top" alt="..."
+                             style="height: 300px">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                @Html.DisplayFor(modelItem => product.Name)
+                            </h5>
+                            <form method="post" action="@Url.Action("AddToCompare", "Compare")">
+                                <input type="hidden" name="productId" value="@product.Id" />
+                                <input type="hidden" name="quantity" value="1" />
+                                <div class="row">
+                                    <div>
+                                        <button type="submit" class="btn-add-to-cart">Thêm sản phẩm để so sánh</button>
+                                        <button asp-action="Display" asp-route-id="@product.Id" class="btn btn-primary">Xem thông tin sản phẩm</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+

@@ -1,0 +1,33 @@
+﻿@model DACS.Models.EF.Product
+@{
+    ViewData["Title"] = "Display";
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+@section naviheader {
+    <div class="header">
+        <div class="container">
+            <div class="navbar">
+                <nav>
+                    <ul id="MenuItems">
+                        <li><a href="/user/home/index">Home</a></li>
+                        <li><a href="/user/compare/index">So sánh sản phẩm</a></li>
+                        <li><a href="/user/post/index">Bài viết</a></li>
+                        <li><a href="/user/news/index">Tin tức</a></li>
+                        <li><partial name="_LoginPartial" /></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+}
+<h2>@Model.Name</h2>
+<div>
+    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+    {
+        <img src="@Model.ImageUrl" alt="Product Image" style="max-width: 200px;" />
+    }
+    @Html.Raw(Model.Detail)
+    @Html.Raw(Model.AddressAndPrice)
+</div>
+<a asp-action="Index">Back to List</a>
+
