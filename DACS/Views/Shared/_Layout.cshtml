@@ -15,7 +15,22 @@
 
 <body>
 
-    @RenderSection("naviheader")
+    <div class="header">
+        <div class="container">
+            <div class="navbar">
+                <nav>
+                    <ul id="MenuItems">
+                        <li><a href="/user/home/index">Home</a></li>
+                        <li><a href="/user/post/index">Bài viết</a></li>
+                        <li><a href="/user/news/index">Tin tức</a></li>
+                        <li><a href="/user/checkingcart/index">So sánh sản phẩm</a></li>
+                        <li><partial name="_LoginPartial" /></li>
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
