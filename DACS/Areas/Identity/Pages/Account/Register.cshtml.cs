@@ -108,7 +108,8 @@ namespace DACS.Areas.Identity.Pages.Account
             public IEnumerable<SelectListItem> RoleList { get; set; }
         }
 
-
+        [Area("Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task OnGetAsync(string returnUrl = null)
         {
             if (!_roleManager.RoleExistsAsync(SD.Role_User).GetAwaiter().GetResult())
