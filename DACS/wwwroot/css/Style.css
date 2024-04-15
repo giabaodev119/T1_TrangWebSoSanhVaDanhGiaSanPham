@@ -45,8 +45,8 @@ nav {
         }
 
 a {
-    text-decoration: none;
-    color: #fff;
+    text-decoration:from-font;
+    color:white;
 }
 
 .row {

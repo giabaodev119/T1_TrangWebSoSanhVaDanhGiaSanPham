@@ -1,3 +1,4 @@
+using DACS.Interface;
 using DACS.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -6,27 +7,33 @@ namespace DACS.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        
+        private readonly IProduct _product;
+        private readonly IProductCategory _productcategory;
+        public HomeController(IProduct product, IProductCategory productcategory)
         {
-            _logger = logger;
+            _product = product;
+            _productcategory = productcategory;
         }
-
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string Searchtext)
         {
-            return View();
+
+            var products = await _product.GetAllAsync();
+
+            if (!string.IsNullOrEmpty(Searchtext))
+            {
+                products = products.Where(products => products.Name.ToUpper().Contains(Searchtext.ToUpper())).ToList();
+            }
+            return View(products);
         }
-
-        public IActionResult Privacy()
+        public async Task<IActionResult> Display(int id)
         {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var product = await _product.GetByIdAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
         }
     }
 }
