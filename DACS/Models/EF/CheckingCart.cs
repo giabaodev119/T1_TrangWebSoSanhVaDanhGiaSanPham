@@ -14,7 +14,8 @@ namespace DACS.Models.EF
             if (existingItem == null)
             {
                 Items.Add(item);
-            }else
+            }
+            else
             {
                 throw new Exception("Sản phẩm đã tồn tại trong giỏ hàng");
             }
