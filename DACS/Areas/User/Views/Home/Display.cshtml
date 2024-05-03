@@ -13,6 +13,63 @@
     @Html.Raw(Model.Detail)
     @Html.Raw(Model.AddressAndPrice)
 </div>
+<h3>Comments</h3>
+
+<div id="comments">
+    @foreach (var comment in Model.Comments)
+    {
+        <div class="comment">
+            <p><strong>@comment.Author</strong> - @comment.CreationDate.ToShortDateString()</p>
+            <p>Rating: @comment.Rating</p>
+            <p>@comment.Content</p>
+        </div>
+    }
+</div>
+
+<h3>Add a comment</h3>
+
+<form id="commentForm">
+    <div class="form-group">
+        <label for="author">Your Name:</label>
+        <input type="text" class="form-control" id="author" name="author">
+    </div>
+    <div class="form-group">
+        <label for="rating">Rating:</label>
+        <input type="number" class="form-control" id="rating" name="rating" min="1" max="5">
+    </div>
+    <div class="form-group">
+        <label for="content">Comment:</label>
+        <textarea class="form-control" id="content" name="content"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@section Scripts {
+    <script>
+        document.getElementById("commentForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            var author = document.getElementById("author").value;
+            var rating = document.getElementById("rating").value;
+            var content = document.getElementById("content").value;
+
+            // Send AJAX request to submit comment
+            // Example using fetch API
+            fetch("/products/addcomment", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ productId: @Model.Product.Id, author: author, rating: rating, content: content })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Refresh comments after successful submission
+                    location.reload();
+                }
+            });
+        });
+    </script>
+}
 <a asp-action="Index">Back to List</a>
 @if (Model.ProductComments != null)
 {
