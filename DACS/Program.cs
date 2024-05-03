@@ -33,6 +33,7 @@ builder.Services.AddScoped<IPost, EFPost>();
 builder.Services.AddScoped<IProductCategory, EFProductCategory>();
 builder.Services.AddScoped<IProduct, EFProduct>();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -60,6 +61,18 @@ app.UseEndpoints(endpoints =>
 
     endpoints.MapControllerRoute(name: "User",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+
+    //endpoints.MapControllerRoute(
+    //    name: "productComments",
+    //    pattern: "products/{productId}/comments",
+    //    defaults: new { controller = "ProductComments", action = "GetCommentsForProduct" });
+
+    //endpoints.MapControllerRoute(
+    //    name: "submitComment",
+    //    pattern: "products/{productId}/comments",
+    //    defaults: new { controller = "ProductComments", action = "PostCommentForProduct" });
+
 
 });
 app.MapControllerRoute(

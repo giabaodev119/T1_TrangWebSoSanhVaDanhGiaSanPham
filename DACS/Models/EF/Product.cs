@@ -24,5 +24,7 @@ namespace DACS.Models.EF
         public string? SeoDescription { get; set; }
         public string? SeoKeywords { get; set; }
         public virtual ProductCategory? ProductCategory { get; set; }
+
+        public ICollection<ProductComment> ProductComments { get; set; }
     }
 }

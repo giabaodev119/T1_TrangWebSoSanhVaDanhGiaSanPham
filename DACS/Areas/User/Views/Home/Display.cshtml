@@ -14,4 +14,47 @@
     @Html.Raw(Model.AddressAndPrice)
 </div>
 <a asp-action="Index">Back to List</a>
+@if (Model.ProductComments != null)
+{
+    foreach (var comment in Model.ProductComments)
+    {
+        <div>
+            <p>@comment.Content</p>
+            <small>Posted by: @comment.Name on @comment.CreationDate</small>
+        </div>
+    }
+} @* else
+{
+    foreach (var comment in Model.ProductComments)
+    {
+        <div>
+            <p>@comment.Content</p>
+            <small>Posted by: @comment.Name on @comment.CreationDate</small>
+        </div>
+    }
+} *@
+@* @foreach (var comment in Model.ProductComments)
+{
+    <div>
+        <p>@comment.Content</p>
+        <small>Posted by: @comment.Name on @comment.CreationDate</small>
+    </div>
+} *@
+
+<!-- Comment Form -->
+<form asp-controller="ProductCommentController" asp-action="PostCommentForProduct" asp-route-productId="@Model.Id" method="post">
+    <div>
+        <label>Name:</label>
+        <input type="text" name="Name" />
+    </div>
+    <div>
+        <label>Email:</label>
+        <input type="email" name="Email" />
+    </div>
+    <div>
+        <label>Comment:</label>
+        <textarea name="Content"></textarea>
+    </div>
+    <button type="submit">Submit</button>
+</form>
 
