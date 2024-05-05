@@ -76,6 +76,8 @@ namespace DACS.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
+            [Required]
+            public string FullName { get; set; }
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -180,6 +182,11 @@ namespace DACS.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+            Input.RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+            {
+                Text = i,
+                Value = i
+            });
 
             // If we got this far, something failed, redisplay form
             return Page();

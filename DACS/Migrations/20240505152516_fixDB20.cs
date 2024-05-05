@@ -5,7 +5,7 @@
 namespace DACS.Migrations
 {
     /// <inheritdoc />
-    public partial class fixDB18 : Migration
+    public partial class fixDB20 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

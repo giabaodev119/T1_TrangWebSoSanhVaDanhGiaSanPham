@@ -33,7 +33,7 @@ namespace DACS.Areas.User.Controllers
             _context.productComments.Add(comment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCommentsForProduct", new { productId = productId }, comment);
+            return/* RedirectToAction(nameof());*/ CreatedAtAction("GetCommentsForProduct", new { productId = productId }, comment);
         }
     }
 }

@@ -14,8 +14,10 @@
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"> 
             @foreach (var product in Model)
             {
-                <div class="col mb-5">
-                    <div class="card gap-3" style="width: 18rem">
+                @if (product.IsActive == true)
+                {
+                    <div class="col mb-5">
+                        <div class="card gap-3" style="width: 18rem">
                         <img src="@product.ImageUrl" class="card-img-top" alt="..."
                              style="height: 300px">
                         <div class="card-body">
@@ -35,6 +37,7 @@
                         </div>
                     </div>
                 </div>
+                }
             }
         </div>
     </div>

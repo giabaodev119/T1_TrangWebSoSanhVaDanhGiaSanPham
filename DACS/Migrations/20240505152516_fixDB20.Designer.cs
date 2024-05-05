@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DACS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240428185534_fixDB18")]
-    partial class fixDB18
+    [Migration("20240505152516_fixDB20")]
+    partial class fixDB20
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -412,6 +412,55 @@ namespace DACS.Migrations
                     b.ToTable("ProductCategory");
                 });
 
+            modelBuilder.Entity("DACS.Models.EF.ProductComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasMaxLength(150)
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("productComments");
+                });
+
             modelBuilder.Entity("DACS.Models.EF.SystemSetting", b =>
                 {
                     b.Property<string>("SettingKey")
@@ -660,6 +709,17 @@ namespace DACS.Migrations
                     b.Navigation("ProductCategory");
                 });
 
+            modelBuilder.Entity("DACS.Models.EF.ProductComment", b =>
+                {
+                    b.HasOne("DACS.Models.EF.Product", "Product")
+                        .WithMany("ProductComments")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -716,6 +776,11 @@ namespace DACS.Migrations
                     b.Navigation("News");
 
                     b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("DACS.Models.EF.Product", b =>
+                {
+                    b.Navigation("ProductComments");
                 });
 
             modelBuilder.Entity("DACS.Models.EF.ProductCategory", b =>

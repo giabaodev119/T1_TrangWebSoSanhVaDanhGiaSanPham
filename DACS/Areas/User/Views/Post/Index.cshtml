@@ -21,8 +21,10 @@
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             @foreach (var post in Model)
             {
-                <div class="col mb-5">
-                    <div class="card gap-3" style="width: 18rem">
+                @if (post.IsActive == true)
+                {
+                    <div class="col mb-5">
+                        <div class="card gap-3" style="width: 18rem">
                         <img src="@post.ImageUrl" class="card-img-top" alt="..."
                              style="height: 300px">
                         <div class="card-body">
@@ -36,6 +38,7 @@
                         </div>
                     </div>
                 </div>
+                }
             }
         </div>
     </div>
