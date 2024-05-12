@@ -6,7 +6,7 @@ using DACS.Models.EF;
 
 namespace DACS.DataAccess
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         public DbSet<Product> Products { get; set; }
@@ -19,5 +19,6 @@ namespace DACS.DataAccess
         public DbSet<ProductCategory> ProductCategory { get; set; }
 
         public DbSet<ProductComment> productComments { get; set; }
+        public DbSet<ApplicationUser> User { get; set; }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using DACS.Interface;
+using DACS.Models;
 using DACS.Models.EF;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 
@@ -11,8 +13,10 @@ namespace DACS.Areas.User.Controllers
     public class PostController : Controller
     {
         private readonly IPost _post;
-        public PostController(IPost post)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public PostController(IPost post, UserManager<ApplicationUser>userManager)
         {
+            _userManager = userManager;
             _post = post;
         }
         public async Task<IActionResult> Add()
@@ -38,6 +42,7 @@ namespace DACS.Areas.User.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(Post post, IFormFile imageUrl)
         {
+            var user=await _userManager.GetUserAsync(User);
             if (ModelState.IsValid)
             {
                 if (imageUrl != null)
@@ -51,6 +56,8 @@ namespace DACS.Areas.User.Controllers
                 await _post.AddAsync(post);
                 return RedirectToAction(nameof(Index));
             }
+            EmailHelper EmailHelper = new EmailHelper();
+            bool Email = EmailHelper.SendEmailPasswordReset(user.Email, "Xin chao");
             // Nếu ModelState không hợp lệ, hiển thị form với dữ liệu đã nhập
             var posts = await _post.GetAllAsync();
             return View(post);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DACS.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,11 +10,11 @@ namespace DACS.Areas.Admin.Controllers
 
     public class AdminController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
 
-        public AdminController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AdminController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -30,10 +31,10 @@ namespace DACS.Areas.Admin.Controllers
                 UserName = "doantogiabao@gmail.com",
                 Email = "doantogiabao@gmail.com"
             };
-            var rusult = await _userManager.CreateAsync(user, "Hutech@123");
+            var rusult = await _userManager.CreateAsync((ApplicationUser)user, "Hutech@123");
             if (rusult.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, "Admin");
+                await _userManager.AddToRoleAsync((ApplicationUser)user, "Admin");
                 return Content("Adimin account created successfully!");
             }
             return BadRequest("Failed to create admin account");
