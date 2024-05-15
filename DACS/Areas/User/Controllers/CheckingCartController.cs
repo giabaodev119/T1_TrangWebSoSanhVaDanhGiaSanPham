@@ -1,6 +1,7 @@
 ﻿using DACS.DataAccess;
 using DACS.Helper;
 using DACS.Interface;
+using DACS.Models;
 using DACS.Models.EF;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -15,8 +16,8 @@ namespace DACS.Areas.User.Controllers
     {
         private readonly IProduct _productRepository;
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
-        public CheckingCartController(ApplicationDbContext context,UserManager<IdentityUser> userManager, IProduct productRepository)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public CheckingCartController(ApplicationDbContext context,UserManager<ApplicationUser> userManager, IProduct productRepository)
         {
             _context = context;
             _userManager = userManager;

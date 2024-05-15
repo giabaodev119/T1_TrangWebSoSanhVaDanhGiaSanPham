@@ -7,6 +7,9 @@ using DACS.DataAccess;
 using DACS.Models;
 using DACS.Interface;
 using DACS.Repositories;
+using DACS.Models.EF;
+using Microsoft.Extensions.Hosting;
+using X.PagedList;
 
 namespace DACS.Areas.Admin.Controllers
 {
@@ -25,23 +28,30 @@ namespace DACS.Areas.Admin.Controllers
         }
 
        
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, int? page)
         {
-            var KhachHang = await _userManager.GetUsersInRoleAsync("Customer");//chọn role Employee
+			var user = await _userRepository.GetAllAsync();
+			if (page == null)
+			{
+				page = 1;
+			}
+			int pageSize = 3;
+			int pageNum = page ?? 1;
+			var KhachHang = await _userManager.GetUsersInRoleAsync("Customer");//chọn role Employee
             var KhachHangId = KhachHang.Select(u => u.Id);
             var all_KhachHang = from s in _context.User
                                where KhachHangId.Contains(s.Id)
                                select s;
-
-            if (!String.IsNullOrEmpty(searchString))//Input có thông tin thì xuất ra
+			
+			if (!String.IsNullOrEmpty(searchString))//Input có thông tin thì xuất ra
             {
                 string lowercaseSearchString = searchString.ToLower();
                 all_KhachHang = all_KhachHang.Where(s => s.FullName.ToLower().Contains(lowercaseSearchString)
                                                           || s.Email.ToLower().Contains(lowercaseSearchString)
                                                         || s.UserName.ToLower().Contains(lowercaseSearchString));
-            }
+			}
 
-            return View(await all_KhachHang.ToListAsync());
+            return View(user.ToPagedList(pageNum, pageSize));
         }
 
 

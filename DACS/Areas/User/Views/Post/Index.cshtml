@@ -12,7 +12,6 @@
 
                     <div class="card-tools">
                         <button class="btn btn-primary"> <a href="/user/post/Add" class="btn btn-primary">Thêm mới</a></button>
-                      @*   <a href="/user/post/Add" class="btn btn-primary">Thêm mới</a> *@
                     </div>
                 </div>
         </h3>
@@ -28,9 +27,9 @@
                         <img src="@post.ImageUrl" class="card-img-top" alt="..."
                              style="height: 300px">
                         <div class="card-body">
-                            <h5 class="card-title">
+                            <h3 class="card-title">
                                 @Html.DisplayFor(modelItem => post.Title)
-                            </h5>
+                            </h3>
                             <h5 class="card-title">
                                 @Html.DisplayFor(modelItem => post.Description)
                             </h5>

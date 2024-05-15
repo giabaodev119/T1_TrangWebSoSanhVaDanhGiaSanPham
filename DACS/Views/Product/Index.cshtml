@@ -1,0 +1,121 @@
+﻿@model X.PagedList.IPagedList<DACS.Models.EF.Product>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+	<title>Colo Shop Categories</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="Colo Shop Template">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="~/assets/styles/bootstrap4/bootstrap.min.css">
+	<link href="~/assets/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="~/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+	<link rel="stylesheet" type="text/css" href="~/assets/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+	<link rel="stylesheet" type="text/css" href="~/assets/plugins/OwlCarousel2-2.2.1/animate.css">
+	<link rel="stylesheet" type="text/css" href="~/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="~/assets/styles/categories_styles.css">
+	<link rel="stylesheet" type="text/css" href="~/assets/styles/categories_responsive.css">
+	<link href="~/lib/bootstrap/dist/css/pagedlist.css" rel="stylesheet" />
+</head>
+<div class="container product_section_container">
+	<div class="row">
+		<div class="col product_section clearfix">
+
+			<!-- Breadcrumbs -->
+
+			<div class="breadcrumbs d-flex flex-row align-items-center">
+				<ul>
+					<li><a href="Home/Index">Home</a></li>
+					<li class="active"><a href="product/index"><i class="fa fa-angle-right" aria-hidden="true"></i>Tất cả sản phẩm</a></li>
+				</ul>
+			</div>
+
+			<!-- Sidebar -->
+
+			<div class="sidebar">
+				<div class="sidebar_section">
+					<div class="sidebar_title">
+						<a href="product/index">
+							<h5>Product Category</h5>
+						</a>
+					</div>
+					<ul class="sidebar_categories">
+						@foreach (var productcategory in ViewBag.ProductCategory)
+						{
+							<li class="nav-item">
+								<a class="nav-link" href="@Url.Action("Index", "Product", new { productcategoryId = productcategory.Id })">@productcategory.Name</a>
+							</li>
+						}
+					</ul>
+				</div>
+
+			</div>
+
+			<!-- Main Content -->
+
+			<div class="main_content">
+
+				<!-- Products -->
+
+				<div class="products_iso">
+					<div class="row">
+						<div class="col">
+
+							<!-- Product Grid -->
+
+							<div class="product-grid">
+								@foreach (var item in Model)
+								{
+									@if (item.IsActive == true)
+									{
+										<div class="owl-item product_slider_item">
+											<div class="product-item">
+												<div class="product discount">
+													<div class="product_image">
+														<img src=" @Html.DisplayFor(Model => item.ImageUrl)" alt="">
+													</div>
+													<div class="favorite favorite_left"></div>
+													<div class="product_info">
+														<h6 class="product_name">
+															<a asp-action="Display" asp-route-id="@item.Id">@item.Name</a>
+														</h6>
+													</div>
+												</div>
+											</div>
+										</div>
+									}
+								}
+							</div>
+							<div class="row">
+								<div class="col-6">
+									Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) /@Model.PageCount
+								</div>
+								<div class="col-6">
+									@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+<script src="~/assets/styles/bootstrap4/popper.js"></script>
+<script src="~/assets/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="~/assets/plugins/Isotope/isotope.pkgd.min.js"></script>
+<script src="~/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="~/assets/plugins/easing/easing.js"></script>
+<script src="~/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="~/assets/js/categories_custom.js"></script>
+
+<style>
+	
+</style>

@@ -2,6 +2,7 @@ using DACS.DataAccess;
 using DACS.Interface;
 using DACS.Models;
 using DACS.Models.EF;
+using DACS.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -40,7 +41,7 @@ builder.Services.AddScoped<INews, EFNews>();
 builder.Services.AddScoped<IPost, EFPost>();
 builder.Services.AddScoped<IProductCategory, EFProductCategory>();
 builder.Services.AddScoped<IProduct, EFProduct>();
-
+builder.Services.AddScoped<IUserRepository, EFUserRepository>();
 
 var app = builder.Build();
 
@@ -72,26 +73,10 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute(name: "User",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
-
-    //endpoints.MapControllerRoute(
-    //    name: "productComments",
-    //    pattern: "products/{productId}/comments",
-    //    defaults: new { controller = "ProductComments", action = "GetCommentsForProduct" });
-
-    //endpoints.MapControllerRoute(
-    //    name: "submitComment",
-    //    pattern: "products/{productId}/comments",
-    //    defaults: new { controller = "ProductComments", action = "PostCommentForProduct" });
-
-
 });
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-//app.MapControllerRoute(
-//    name: "admin",
-//    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-//);
 
 
 app.Run();

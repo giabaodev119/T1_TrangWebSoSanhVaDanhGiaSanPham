@@ -1,0 +1,59 @@
+﻿@model X.PagedList.IPagedList<DACS.Models.EF.News>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<div class="main_content">
+
+	<!-- Products -->
+
+	<div class="products_iso">
+		<div class="row">
+			<div class="col">
+				<div class="product-grid">
+                    <div class="container px-4 px-lg-5 mt-5">
+                        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                            @foreach (var news in Model)
+                            {
+                                @if (news.IsActive == true)
+                                {
+                                    <div class="col mb-5">
+                                        <div class="card gap-3" style="width: 18rem">
+                                            <img src="@news.ImageUrl" class="card-img-top" alt="..."
+                                                 style="height: 300px">
+                                            <div class="card-body">
+                                                <h3 class="card-title">
+                                                    @Html.DisplayFor(modelItem => news.Title)
+                                                </h3>
+                                                <h5 class="card-title">
+                                                    @Html.DisplayFor(modelItem => news.Description)
+                                                </h5>
+                                                <a class="blog_more" asp-action="Display" asp-route-id="@news.Id">Read more</a>
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                }
+                            }
+                            
+                        </div>
+                    </div>
+				</div>
+				<div class="row">
+					<div class="col-6">
+						Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) /@Model.PageCount
+					</div>
+					<div class="col-6">
+						@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
