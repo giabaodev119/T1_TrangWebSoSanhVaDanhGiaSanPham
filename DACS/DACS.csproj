@@ -27,7 +27,6 @@
     <Folder Include="Areas\Checker\Models\" />
     <Folder Include="Areas\User\Data\" />
     <Folder Include="Areas\User\Models\" />
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿@model DACS.Models.EF.Product
+@using Microsoft.AspNetCore.Mvc;
 @{
 	ViewData["Title"] = "Display";
 	Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
@@ -19,6 +20,16 @@
 	<link rel="stylesheet" type="text/css" href="~/assets/styles/single_styles.css">
 	<link rel="stylesheet" type="text/css" href="~/assets/styles/single_responsive.css">
 </head>
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+<script src="~/assets/styles/bootstrap4/popper.js"></script>
+<script src="~/assets/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="~/assets/plugins/Isotope/isotope.pkgd.min.js"></script>
+<script src="~/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="~/assets/plugins/easing/easing.js"></script>
+<script src="~/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="~/assets/js/single_custom.js"></script>
+<script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+<script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>"
 <body>
 
 	<div class="super_container">
@@ -270,6 +281,20 @@
 										</div>
 									</div>
 								</div>
+								<h3>Comments</h3>
+								<div id="Showrv">
+									@if (Model.ProductComments != null)
+									{
+										foreach (var comment in Model.ProductComments)
+										{
+											<div>
+												<p>@comment.Content</p>
+												<small>Posted by: @comment.Name on @comment.CreationDate</small>
+											</div>
+										}
+									}
+								</div>
+
 
 								<!-- Add Review -->
 
@@ -279,11 +304,13 @@
 										<form id="review_form" action="post">
 											<div>
 												<h1>Add Review</h1>
+												<input type="hidden" id="productId" value="@Model.Id" />
 												<input id="review_name" class="form_input input_name" type="text" name="name" placeholder="Name*" required="required" data-error="Name is required.">
 												<input id="review_email" class="form_input input_email" type="email" name="email" placeholder="Email*" required="required" data-error="Valid email is required.">
 											</div>
 											<div>
 												<h1>Your Rating:</h1>
+												<input type="number" id="Rating" name="rating" placeholder="Rating (1-5)" min="1" max="5" required />
 												<ul class="user_star_rating">
 													<li><i class="fa fa-star" aria-hidden="true"></i></li>
 													<li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -311,12 +338,38 @@
 
 	</div>
 
-	<script src="~/assets/js/jquery-3.2.1.min.js"></script>
-	<script src="~/assets/styles/bootstrap4/popper.js"></script>
-	<script src="~/assets/styles/bootstrap4/bootstrap.min.js"></script>
-	<script src="~/assets/plugins/Isotope/isotope.pkgd.min.js"></script>
-	<script src="~/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
-	<script src="~/assets/plugins/easing/easing.js"></script>
-	<script src="~/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
-	<script src="~/assets/js/single_custom.js"></script>
+	
+	@section Scripts {
+    <script>
+        $(document).ready(function () {
+				$("#review_submit").click(function (e) {
+                e.preventDefault();
+
+                var obj = {
+                    ProductId: $('#productId').val(),
+						Name: $('#review_name').val(),
+						Email: $('#review_email').val(),
+						Content: $('#review_message').val(),
+                    Rating: $('#Rating').val() // Ensure Rating is included
+                };
+
+                $.ajax({
+                    url: '/Comments/AddComment',
+                    type: 'POST',
+                    data: JSON.stringify(obj),
+                    contentType: 'application/json',
+                    success: function (response) {
+                        alert('Comment added successfully');
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error adding comment:', xhr.responseText);
+                        alert('An error occurred while adding the comment: ' + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+}
+
 </body>

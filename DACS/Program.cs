@@ -42,6 +42,7 @@ builder.Services.AddScoped<IPost, EFPost>();
 builder.Services.AddScoped<IProductCategory, EFProductCategory>();
 builder.Services.AddScoped<IProduct, EFProduct>();
 builder.Services.AddScoped<IUserRepository, EFUserRepository>();
+builder.Services.AddScoped<IProductComment, EFProductComment>();
 
 var app = builder.Build();
 
