@@ -15,10 +15,6 @@ namespace DACS.Models.EF
             {
                 Items.Add(item);
             }
-            else
-            {
-                throw new Exception("Sản phẩm đã tồn tại trong giỏ hàng");
-            }
         }
         public void RemoveItem(int productId)
         {

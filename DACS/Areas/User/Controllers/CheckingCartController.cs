@@ -42,7 +42,7 @@ namespace DACS.Areas.User.Controllers
 
             HttpContext.Session.SetObjectAsJson("Cart", cart);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Product");
         }
         public IActionResult Index()
         {
