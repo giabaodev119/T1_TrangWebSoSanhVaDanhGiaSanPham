@@ -1,4 +1,5 @@
 ﻿@model DACS.Models.EF.Product
+
 @{
 	ViewData["Title"] = "Display";
 	Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
@@ -171,8 +172,21 @@
 										</div>
 									</div>
 								</div>
+								<div class="user_review_container d-flex flex-column flex-sm-row">
+									<div class="user">
+									@* 	<div id="comment-list">
+											<!-- Comments will be displayed here -->
+											@Html.HiddenFor(model => model.Id)
+											<partial name="_Comment" data="@Model.Id" model="@Model.ProductComments"  />
+
+										</div> *@
+								</div>							
+							</div>
 
 								<!-- Add Review -->
+								<div class="comment-list" id="comment-list">
+									<!-- Danh sách bình luận và đánh giá sẽ được cập nhật ở đây -->
+								</div>
 
 								<div class="col-lg-6 add_review_col">
 
@@ -218,6 +232,31 @@
 	@section Scripts {
 		<script>
 			$(document).ready(function () {
+				// Function to load comments via AJAX
+
+				function loadComments(productId) {
+					console.log(1);
+					$.ajax({
+						url: "/Comments/GetComments",
+						type: "GET",
+						data: {
+							productId: productId
+						},
+						success: function (data) {
+							$("#comment-list").html(data);
+							console.log(2);
+						},
+						error: function (xhr, status, error) {
+							console.log("Error loading comments: " + error); // Log detailed error message
+							console.log(xhr.responseText); // Log server response
+						}
+					});
+				}
+
+				var productId = $('#productId').val();
+				loadComments(productId);
+
+
 				$("#review_submit").click(function (e) {
 					e.preventDefault();
 
@@ -236,6 +275,7 @@
 						contentType: 'application/json',
 						success: function (response) {
 							alert('Comment added successfully');
+
 							location.reload();
 						},
 						error: function (xhr, status, error) {

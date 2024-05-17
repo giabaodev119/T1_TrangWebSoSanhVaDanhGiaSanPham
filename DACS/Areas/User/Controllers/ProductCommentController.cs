@@ -83,17 +83,21 @@ namespace DACS.Areas.User.Controllers
 			return BadRequest(ModelState);
 		}
 
-		[HttpGet("/Comments/GetComments/{productId}")]
+		[HttpGet("/Comments/GetComments")]
 		public async Task<ActionResult> GetComments(int productId)
 		{
-			var comments = await _productcomment.GetByIdAsync(productId);
+			var comments = await _productcomment.GetByProductIdAsync(productId);
 
 			if (comments == null)
 			{
 				return NotFound();
 			}
-			return PartialView("_CommentsPartial", comments);
+
+			// Specify the correct partial view path
+			return PartialView("~/Areas/User/Views/Product/_Comment.cshtml", comments);
 		}
+
+
 	}
 }
 

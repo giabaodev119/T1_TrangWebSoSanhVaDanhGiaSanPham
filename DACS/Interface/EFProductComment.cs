@@ -34,8 +34,14 @@ namespace DACS.Interface
             return await _context.productComments.FindAsync(id);
         }
 
+		public async Task<IEnumerable<ProductComment>> GetByProductIdAsync(int id)
+		{
+            var tmp =  _context.productComments.Where(x => x.ProductId == id).ToList();
+            return  tmp;
+		}
 
-        public async Task UpdateAsync(ProductComment productComment)
+
+		public async Task UpdateAsync(ProductComment productComment)
         {
             _context.productComments.Update(productComment);
             await _context.SaveChangesAsync();

@@ -132,7 +132,7 @@ namespace DACS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Advs");
+                    b.ToTable("Advs", (string)null);
                 });
 
             modelBuilder.Entity("DACS.Models.EF.Category", b =>
@@ -187,7 +187,7 @@ namespace DACS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("DACS.Models.EF.Contact", b =>
@@ -234,7 +234,7 @@ namespace DACS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("DACS.Models.EF.News", b =>
@@ -295,7 +295,7 @@ namespace DACS.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("News");
+                    b.ToTable("News", (string)null);
                 });
 
             modelBuilder.Entity("DACS.Models.EF.Post", b =>
@@ -356,7 +356,7 @@ namespace DACS.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("DACS.Models.EF.Product", b =>
@@ -425,7 +425,7 @@ namespace DACS.Migrations
 
                     b.HasIndex("ProductCategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("DACS.Models.EF.ProductCategory", b =>
@@ -475,7 +475,7 @@ namespace DACS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategory");
+                    b.ToTable("ProductCategory", (string)null);
                 });
 
             modelBuilder.Entity("DACS.Models.EF.ProductComment", b =>
@@ -512,7 +512,7 @@ namespace DACS.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("productComments");
+                    b.ToTable("productComments", (string)null);
                 });
 
             modelBuilder.Entity("DACS.Models.EF.SystemSetting", b =>
@@ -533,7 +533,7 @@ namespace DACS.Migrations
 
                     b.HasKey("SettingKey");
 
-                    b.ToTable("SystemSettings");
+                    b.ToTable("SystemSettings", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

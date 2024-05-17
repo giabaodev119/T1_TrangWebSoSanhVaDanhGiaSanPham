@@ -1,0 +1,18 @@
+﻿@model List<DACS.Models.EF.ProductComment>
+
+@if (Model != null && Model.Count > 0)
+{
+    <div>
+        @foreach (var comment in Model)
+        {
+            <li class="comment-item">
+                @comment.Content
+            </li>
+        }
+    </div>
+}
+
+else
+{
+    <p>Không có bình luận nào.</p>
+}

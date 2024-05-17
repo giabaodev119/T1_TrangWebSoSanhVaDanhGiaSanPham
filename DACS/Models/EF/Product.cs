@@ -5,7 +5,12 @@ namespace DACS.Models.EF
 {
     public class Product : CommonAbstract
     {
-        [Key]
+
+		public Product()
+		{
+			this.ProductComments = new HashSet<ProductComment>();
+		}
+		[Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required(ErrorMessage = "Tên không được để trống")]
