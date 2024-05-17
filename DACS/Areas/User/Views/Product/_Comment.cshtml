@@ -5,9 +5,21 @@
     <div>
         @foreach (var comment in Model)
         {
-            <li class="comment-item">
-                @comment.Content
-            </li>
+			<div class="user_review_container d-flex flex-column flex-sm-row">
+				<div class="user">
+					<div class="user_pic"></div>
+					<div class="user_rating">
+						<ul class="star_rating">
+							<li>@comment.Rating / 5 <i class="fa fa-star" aria-hidden="true"></i></li>
+						</ul>
+					</div>
+				</div>
+				<div class="review">
+					<div class="review_date">@comment.CreationDate</div>
+					<div class="user_name">@comment.Name</div>
+					<p>@comment.Content</p>
+				</div>
+			</div>
         }
     </div>
 }

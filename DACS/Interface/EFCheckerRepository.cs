@@ -7,13 +7,13 @@ using   DACS.Models;
 
 namespace DACS.Repositories
 {
-    public class EFChecherRepository : ICheckerRepository
+    public class EFCheckerRepository : ICheckerRepository
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
 
-        public EFChecherRepository(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public EFCheckerRepository(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _context = context;
@@ -21,7 +21,7 @@ namespace DACS.Repositories
 
         public async Task<IEnumerable<ApplicationUser>> GetAllAsync()
         {
-            var employees = await _userManager.GetUsersInRoleAsync("Employee");
+            var employees = await _userManager.GetUsersInRoleAsync("Checker");
             return employees;
         }
 

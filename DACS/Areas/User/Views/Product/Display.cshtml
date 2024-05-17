@@ -88,7 +88,6 @@
 		</div>
 
 		<!-- Tabs -->
-
 		<div class="tabs_section_container">
 
 			<div class="container">
@@ -129,64 +128,14 @@
 									</div>
 
 									<!-- User Review -->
-
-									<div class="user_review_container d-flex flex-column flex-sm-row">
-										<div class="user">
-											<div class="user_pic"></div>
-											<div class="user_rating">
-												<ul class="star_rating">
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-												</ul>
-											</div>
-										</div>
-										<div class="review">
-											<div class="review_date">27 Aug 2016</div>
-											<div class="user_name">Brandon William</div>
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-										</div>
+									<div class="comment-list" id="comment-list">
+										<!-- Danh sách bình luận và đánh giá sẽ được cập nhật ở đây -->
 									</div>
+									
 
-									<!-- User Review -->
-
-									<div class="user_review_container d-flex flex-column flex-sm-row">
-										<div class="user">
-											<div class="user_pic"></div>
-											<div class="user_rating">
-												<ul class="star_rating">
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-												</ul>
-											</div>
-										</div>
-										<div class="review">
-											<div class="review_date">27 Aug 2016</div>
-											<div class="user_name">Brandon William</div>
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-										</div>
-									</div>
 								</div>
-								<div class="user_review_container d-flex flex-column flex-sm-row">
-									<div class="user">
-									@* 	<div id="comment-list">
-											<!-- Comments will be displayed here -->
-											@Html.HiddenFor(model => model.Id)
-											<partial name="_Comment" data="@Model.Id" model="@Model.ProductComments"  />
-
-										</div> *@
-								</div>							
-							</div>
 
 								<!-- Add Review -->
-								<div class="comment-list" id="comment-list">
-									<!-- Danh sách bình luận và đánh giá sẽ được cập nhật ở đây -->
-								</div>
 
 								<div class="col-lg-6 add_review_col">
 
@@ -203,10 +152,6 @@
 												<input type="number" id="Rating" name="rating" placeholder="Rating (1-5)" min="1" max="5" required />
 												<ul class="user_star_rating">
 													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
 												</ul>
 												<textarea id="review_message" class="input_review" name="message" placeholder="Your Review" rows="4" required data-error="Please, leave us a review."></textarea>
 											</div>
@@ -225,8 +170,8 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
+
 
 
 	@section Scripts {
@@ -274,7 +219,7 @@
 						data: JSON.stringify(obj),
 						contentType: 'application/json',
 						success: function (response) {
-							alert('Comment added successfully');
+							// alert('Comment added successfully');
 
 							location.reload();
 						},

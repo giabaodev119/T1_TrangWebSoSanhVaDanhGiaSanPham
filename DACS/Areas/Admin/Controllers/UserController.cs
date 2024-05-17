@@ -37,19 +37,10 @@ namespace DACS.Areas.Admin.Controllers
 			}
 			int pageSize = 3;
 			int pageNum = page ?? 1;
-			var KhachHang = await _userManager.GetUsersInRoleAsync("Customer");//chọn role Employee
-            var KhachHangId = KhachHang.Select(u => u.Id);
-            var all_KhachHang = from s in _context.User
-                               where KhachHangId.Contains(s.Id)
-                               select s;
-			
-			if (!String.IsNullOrEmpty(searchString))//Input có thông tin thì xuất ra
+            if (!string.IsNullOrEmpty(searchString))
             {
-                string lowercaseSearchString = searchString.ToLower();
-                all_KhachHang = all_KhachHang.Where(s => s.FullName.ToLower().Contains(lowercaseSearchString)
-                                                          || s.Email.ToLower().Contains(lowercaseSearchString)
-                                                        || s.UserName.ToLower().Contains(lowercaseSearchString));
-			}
+                user = user.Where(user => user.Email.ToLower().Contains(searchString.ToLower())|| user.FullName.ToLower().Contains(searchString.ToLower()) || user.UserName.ToLower().Contains(searchString.ToLower())).ToList();
+            }
 
             return View(user.ToPagedList(pageNum, pageSize));
         }

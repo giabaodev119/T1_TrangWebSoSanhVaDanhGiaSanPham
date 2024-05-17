@@ -7,6 +7,7 @@ using DACS.DataAccess;
 using DACS.Models;
 using DACS.Interface;
 using DACS.Repositories;
+using X.PagedList;
 
 namespace DACS.Areas.Admin.Controllers
 {
@@ -24,29 +25,27 @@ namespace DACS.Areas.Admin.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index(string searchString)
-        {       
-            var NhanVien = await _userManager.GetUsersInRoleAsync("Employee");//chọn role Employee
-            var nhanvienId = NhanVien.Select(u => u.Id); 
-            var all_Nhanvien = from s in _context.User
-                               where nhanvienId.Contains(s.Id) 
-                               select s;
+        public async Task<IActionResult> Index(string searchString, int? page)
+        {
+			var checker = await _checkerRepository.GetAllAsync();
+			if (page == null)
+			{
+				page = 1;
+			}
+			int pageSize = 3;
+			int pageNum = page ?? 1;
 
-            if (!String.IsNullOrEmpty(searchString))//Input có thông tin thì xuất ra
+            if (!string.IsNullOrEmpty(searchString))
             {
-                string lowercaseSearchString = searchString.ToLower();
-                all_Nhanvien = all_Nhanvien.Where(s => s.FullName.ToLower().Contains(lowercaseSearchString)
-                                                        ||s.Email.ToLower().Contains(lowercaseSearchString)
-                                                        || s.UserName.ToLower().Contains(lowercaseSearchString));
-                                                        
-            }               
-            return View(await all_Nhanvien.ToListAsync());
+                checker = checker.Where(checker => checker.Email.ToLower().Contains(searchString.ToLower()) || checker.FullName.ToLower().Contains(searchString.ToLower()) || checker.UserName.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+            return View(checker.ToPagedList(pageNum, pageSize));
         }
 
         [HttpPost]
         public async Task<JsonResult> GetSearchEMValue(string search)
         {
-            var NhanVien = await _userManager.GetUsersInRoleAsync("Employee");
+            var NhanVien = await _userManager.GetUsersInRoleAsync("Checker");
             var NVResult = NhanVien.Where(x => x.FullName.ToLower().Contains(search))
                                         .Select(x => new {
                                             label = x.FullName.ToLower(),
