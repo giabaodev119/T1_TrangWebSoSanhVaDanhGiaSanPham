@@ -31,7 +31,12 @@ namespace DACS.Interface
            
             return await _context.News.ToListAsync();
         }
-       
+
+        public async Task<IEnumerable<News>> GetWithIsActiveAsync()
+        {
+            return await _context.News.Where(x=>x.IsActive).ToListAsync();
+        }
+
         public async Task<News> GetByIdAsync(int id)
         {
             return await _context.News.FindAsync(id);

@@ -6,54 +6,71 @@
     Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<style>
+    .news_section_container{
+        margin-top:180px;
 
-<div class="main_content">
+    }
 
-    <!-- Products -->
+    .row-item-new{
+        margin-bottom:20px;
+    }
+    .title-news{
+        font-size:24px;
+        border-bottom: 1px solid;
+        padding: 15px 0;
+        margin-bottom:25px;
+    }
 
-    <div class="products_iso">
-        <div class="row">
-            <div class="col">
-                <div class="product-grid">
-                    <div class="container px-4 px-lg-5 mt-5">
-                        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                            @foreach (var news in Model)
-                            {
-                                @if (news.IsActive == true)
-                                {
-                                    <div class="col mb-5">
-                                        <div class="card gap-3" style="width: 18rem">
-                                            <img src="@news.ImageUrl" class="card-img-top" alt="..."
-                                                 style="height: 300px">
-                                            <div class="card-body">
-                                                <h3 class="card-title">
-                                                    @Html.DisplayFor(modelItem => news.Title)
-                                                </h3>
-                                                <h5 class="card-title">
-                                                    @Html.DisplayFor(modelItem => news.Description)
-                                                </h5>
-                                                <a class="blog_more" asp-action="Display" asp-route-id="@news.Id">Read more</a>
+    .img-box img{
+        max-width:100%;
+        max-height:100%;
+    }
 
-                                            </div>
-                                        </div>
+</style>
 
-                                    </div>
-                                }
-                            }
-
+<div class="container news_section_container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="title-news">Tin tức</h1>
+        </div>
+    </div>
+    @foreach (var news in Model)
+    {
+        @if (news.IsActive == true)
+        {
+            <div class="row row-item-new">
+                <div class="col-md-3">
+                    <div class="img-box">
+                        <a asp-action="Display" asp-route-id="@news.Id" title="@news.Title"><img src="@news.ImageUrl" alt="@news.Title"></img></a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="content-box">
+                        <h3><a asp-action="Display" asp-route-id="@news.Id" title="@news.Title">@news.Title</a></h3>
+                        <div class="description-box">
+                            @news.Description
                         </div>
                     </div>
                 </div>
-                <div class="row">
+            </div>
+        }
+    }
+     <div class="row">
                     <div class="col-6">
                         Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) /@Model.PageCount
                     </div>
                     <div class="col-6">
                         @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+     </div>
 </div>
+
+
+
+
+
+
+
+
+

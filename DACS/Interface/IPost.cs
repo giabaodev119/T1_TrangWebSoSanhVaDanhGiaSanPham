@@ -9,5 +9,6 @@ namespace DACS.Interface
         Task AddAsync(Post post);
         Task UpdateAsync(Post post);
         Task Delete(int id);
+        Task<IEnumerable<Post>> GetWithIsActiveAsync();
     }
 }

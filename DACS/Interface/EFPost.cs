@@ -1,6 +1,7 @@
 ﻿using DACS.DataAccess;
 using DACS.Interface;
 using DACS.Models.EF;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace DACS.Interface
@@ -29,6 +30,11 @@ namespace DACS.Interface
         {
             
             return await _context.Posts.ToArrayAsync();
+        }
+        public async Task<IEnumerable<Post>> GetWithIsActiveAsync()
+        {
+            return await _context.Posts.Where(p => p.IsActive).ToArrayAsync();
+            
         }
 
         public async Task<Post> GetByIdAsync(int id)

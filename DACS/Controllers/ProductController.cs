@@ -24,7 +24,7 @@ namespace DACS.Controllers
 
 			var categories = _context.ProductCategory.ToList();
 			ViewBag.ProductCategory = categories;
-
+			
 
 			var products = productcategoryId.HasValue ?
 
@@ -56,5 +56,5 @@ namespace DACS.Controllers
 			}
 			return View(product);
 		}
-	}
+    }
 }

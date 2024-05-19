@@ -1,8 +1,10 @@
-﻿using DACS.Interface;
+﻿using DACS.DataAccess;
+using DACS.Interface;
 using DACS.Models.EF;
 using DACS.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DACS.Areas.User.Controllers
 {
@@ -14,17 +16,21 @@ namespace DACS.Areas.User.Controllers
         private readonly IProductCategory _productcategory;
         private readonly IProductComment _productcomment;
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(IProduct product, IProductCategory productcategory, IProductComment productComment, ILogger<HomeController> logger)
+        public HomeController(IProduct product, IProductCategory productcategory, IProductComment productComment, ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _product = product;
             _productcategory = productcategory;
             _productcomment = productComment;
             _logger = logger;
+            _context = context;
         }
 
         public async Task<IActionResult> Index(string Searchtext)
         {
+            var news = _context.News.Take(3).ToList();
+            ViewBag.News = news;
             var products = await _product.GetAllAsync();
 
             if (!string.IsNullOrEmpty(Searchtext))

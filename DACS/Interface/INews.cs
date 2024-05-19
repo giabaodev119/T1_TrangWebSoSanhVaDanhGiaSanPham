@@ -9,5 +9,6 @@ namespace DACS.Interface
         Task AddAsync(News news);
         Task UpdateAsync(News news);
         Task Delete(int id);
+        Task<IEnumerable<News>> GetWithIsActiveAsync();
     }
 }

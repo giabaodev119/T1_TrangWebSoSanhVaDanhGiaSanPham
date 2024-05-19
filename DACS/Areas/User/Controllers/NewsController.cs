@@ -17,12 +17,12 @@ namespace DACS.Areas.User.Controllers
         }
         public async Task<IActionResult> Index(string Searchtext, int? page)
         {
-            var news = await _news.GetAllAsync();
+            var news = await _news.GetWithIsActiveAsync();
             if (page == null)
             {
                 page = 1;
             }
-            int pageSize = 10;
+            int pageSize = 5;
             int pageNum = page ?? 1;
             if (!string.IsNullOrEmpty(Searchtext))
             {

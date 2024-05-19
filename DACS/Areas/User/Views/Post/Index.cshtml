@@ -1,44 +1,73 @@
-﻿@model IEnumerable<DACS.Models.EF.Post>
+﻿@model X.PagedList.IPagedList<DACS.Models.EF.Post>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
 
+<link rel="stylesheet" href="~/clients/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
 
-<section class="py-2">
-    <div class="small-container">
-        <h2 class="title">
-            Bài Viết
-        </h2>
-        <h3 class="nav-item">
-            <div class="card">
-                <div class="card-header">
+<style>
+    .news_section_container {
+        margin-top: 180px;
+    }
 
-                    <div class="card-tools">
-                        <button class="btn btn-primary"> <a href="/user/post/Add" class="btn btn-primary">Thêm mới</a></button>
-                    </div>
-                </div>
-        </h3>
+    .row-item-new {
+        margin-bottom: 20px;
+    }
+
+    .title-news {
+        font-size: 24px;
+        border-bottom: 1px solid;
+        padding: 15px 0;
+        margin-bottom: 25px;
+    }
+
+    .img-box img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+</style>
+
+<div class="container news_section_container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="title-news">Bài viết</h1>
+        </div>
     </div>
-    <div class="container px-4 px-lg-5 mt-5">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            @foreach (var post in Model)
-            {
-                @if (post.IsActive == true)
-                {
-                    <div class="col mb-5">
-                        <div class="card gap-3" style="width: 18rem">
+    <h3 class="nav-item">
+        <a href="/user/post/Add" class="btn btn-primary">Thêm mới</a>
+    </h3>
+    @foreach (var post in Model)
+    {
+        @if (post.IsActive == true)
+        {
+            <div class="row row-item-new">
+                <div class="col-md-3">
+                    <div class="img-box">
                         <img src="@post.ImageUrl" class="card-img-top" alt="..."
                              style="height: 300px">
-                        <div class="card-body">
-                            <h3 class="card-title">
-                                @Html.DisplayFor(modelItem => post.Title)
-                            </h3>
-                            <h5 class="card-title">
-                                @Html.DisplayFor(modelItem => post.Description)
-                            </h5>
-
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="user_name">@post.CreateBy</div>
+                </div>
+                <div class="col-md-6">
+                    <div class="content-box">
+                        <h3><a title="@post.Title">@post.Title</a></h3>
+                        <div class="description-box">
+                            @post.Description
                         </div>
                     </div>
                 </div>
-                }
-            }
+            </div>
+        }
+    }
+
+    <div class="row">
+        <div class="col-6">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) /@Model.PageCount
+        </div>
+        <div class="col-6">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
         </div>
     </div>
-</section>
+</div>

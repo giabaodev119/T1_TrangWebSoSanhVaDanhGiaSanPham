@@ -26,7 +26,7 @@ namespace DACS.Areas.User.Controllers
         }
         public async Task<IActionResult> Index(string Searchtext, int? page)
         {
-            var post = await _post.GetAllAsync();
+            var post = await _post.GetWithIsActiveAsync();
             if (page == null)
             {
                 page = 1;
@@ -50,6 +50,7 @@ namespace DACS.Areas.User.Controllers
                     // Lưu hình ảnh đại diện
                     post.ImageUrl = await SaveImage(imageUrl);
                 }
+                post.CreateBy = user.FullName;
                 post.CreateDate = DateTime.Now;
                 post.ModifiedDate = DateTime.Now;
                 post.Alias = Models.Common.Filter.FilterChar(post.Title);
