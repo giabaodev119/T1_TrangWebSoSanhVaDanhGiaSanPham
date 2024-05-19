@@ -11,7 +11,7 @@ namespace DACS.Models
             mailMessage.From = new MailAddress("tranhoangtrieudateh2003@gmail.com");
             mailMessage.To.Add(new MailAddress(userEmail));
 
-            mailMessage.Subject = "Password Reset";
+            mailMessage.Subject = "Cảm ơn bạn đã đóng góp";
             mailMessage.IsBodyHtml = true;
             mailMessage.Body = link;
 

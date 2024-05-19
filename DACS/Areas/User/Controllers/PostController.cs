@@ -58,7 +58,7 @@ namespace DACS.Areas.User.Controllers
                 return RedirectToAction(nameof(Index));
             }
             EmailHelper EmailHelper = new EmailHelper();
-            bool Email = EmailHelper.SendEmailPasswordReset(user.Email, "Xin chao");
+            bool Email = EmailHelper.SendEmailPasswordReset(user.Email, "Cảm ơn bạn đã đăng bài. Bài viết của bạn sẽ được hiển thị sau khi chúng tôi kiểm duyệt xong! Thân chào");
             // Nếu ModelState không hợp lệ, hiển thị form với dữ liệu đã nhập
             var posts = await _post.GetAllAsync();
             return View(post);
