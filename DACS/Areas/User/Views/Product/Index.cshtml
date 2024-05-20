@@ -32,8 +32,8 @@
 
 			<div class="breadcrumbs d-flex flex-row align-items-center">
 				<ul>
-					<li><a href="Home/Index">Home</a></li>
-					<li class="active"><a href="product/index"><i class="fa fa-angle-right" aria-hidden="true"></i>Tất cả sản phẩm</a></li>
+					<li><a href="/Home/Index">Home</a></li>
+					<li class="active"><a href="/product/index"><i class="fa fa-angle-right" aria-hidden="true"></i>Tất cả sản phẩm</a></li>
 				</ul>
 			</div>
 
@@ -75,18 +75,16 @@
 								{
 									@if (item.IsActive == true)
 									{
-										<div class="owl-item product_slider_item">
-											<div class="product-item">
-												<div class="product discount">
-													<div class="product_image">
-														<img src=" @Html.DisplayFor(Model => item.ImageUrl)" alt="">
-													</div>
-													<div class="favorite favorite_left"></div>
-													<div class="product_info">
-														<h6 class="product_name">
-															<a asp-action="Display" asp-route-id="@item.Id">@item.Name</a>
-														</h6>
-													</div>
+										<div class="product-item men">
+											<div class="product discount product_filter">
+												<div class="product_image">
+													<img src=" @Html.DisplayFor(Model => item.ImageUrl)" alt="" style="height: 218px; width: 218px" />
+												</div>
+												<div class="favorite favorite_left"></div>
+												<div class="product_info">
+													<h6 class="product_name" style="margin-top: 50px">
+														<a asp-action="Display" asp-route-id="@item.Id">@item.Name</a>
+													</h6>
 												</div>
 											</div>
 										</div>
@@ -117,8 +115,4 @@
 <script src="~/assets/plugins/easing/easing.js"></script>
 <script src="~/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="~/assets/js/categories_custom.js"></script>
-
-<style>
-
-</style>
 

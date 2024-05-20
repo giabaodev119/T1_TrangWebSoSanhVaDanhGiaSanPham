@@ -23,11 +23,10 @@ namespace DACS.Areas.User.Controllers
             _userManager = userManager;
             _productRepository = productRepository;
         }
-        public async Task<IActionResult> AddToCart(int productId, int quantity)
+        public async Task<IActionResult> AddToCart(int productId)
         {
             // Giả sử bạn có phương thức lấy thông tin sản phẩm từ productId 
             var product = await GetProductFromDatabase(productId);
-
             var cartItem = new CheckItem
             {
                 ProductId = productId,

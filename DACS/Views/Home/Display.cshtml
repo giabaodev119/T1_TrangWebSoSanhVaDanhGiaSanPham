@@ -120,48 +120,11 @@
 									</div>
 
 									<!-- User Review -->
-
-									<div class="user_review_container d-flex flex-column flex-sm-row">
-										<div class="user">
-											<div class="user_pic"></div>
-											<div class="user_rating">
-												<ul class="star_rating">
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-												</ul>
-											</div>
-										</div>
-										<div class="review">
-											<div class="review_date">27 Aug 2016</div>
-											<div class="user_name">Brandon William</div>
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-										</div>
+									<div class="comment-list" id="comment-list">
+										<!-- Danh sách bình luận và đánh giá sẽ được cập nhật ở đây -->
 									</div>
 
-									<!-- User Review -->
 
-									<div class="user_review_container d-flex flex-column flex-sm-row">
-										<div class="user">
-											<div class="user_pic"></div>
-											<div class="user_rating">
-												<ul class="star_rating">
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-												</ul>
-											</div>
-										</div>
-										<div class="review">
-											<div class="review_date">27 Aug 2016</div>
-											<div class="user_name">Brandon William</div>
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-										</div>
-									</div>
 								</div>
 
 								<!-- Add Review -->
@@ -172,17 +135,14 @@
 										<form id="review_form" action="post">
 											<div>
 												<h1>Add Review</h1>
-												<input id="review_name" class="form_input input_name" type="text" name="name" placeholder="Name*" required="required" data-error="Name is required.">
-												<input id="review_email" class="form_input input_email" type="email" name="email" placeholder="Email*" required="required" data-error="Valid email is required.">
+												<input type="hidden" id="productId" value="@Model.Id" />
+
 											</div>
 											<div>
 												<h1>Your Rating:</h1>
+												<input type="number" id="Rating" name="rating" placeholder="Rating (1-5)" min="1" max="5" required />
 												<ul class="user_star_rating">
 													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
 												</ul>
 												<textarea id="review_message" class="input_review" name="message" placeholder="Your Review" rows="4" required data-error="Please, leave us a review."></textarea>
 											</div>
@@ -212,4 +172,66 @@
 	<script src="~/assets/plugins/easing/easing.js"></script>
 	<script src="~/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 	<script src="~/assets/js/single_custom.js"></script>
+
+
+
+	@section Scripts {
+		<script>
+			$(document).ready(function () {
+				// Function to load comments via AJAX
+
+				function loadComments(productId) {
+					console.log(1);
+					$.ajax({
+						url: "/Comments/GetComments",
+						type: "GET",
+						data: {
+							productId: productId
+						},
+						success: function (data) {
+							$("#comment-list").html(data);
+							console.log(2);
+						},
+						error: function (xhr, status, error) {
+							console.log("Error loading comments: " + error); // Log detailed error message
+							console.log(xhr.responseText); // Log server response
+						}
+					});
+				}
+
+				var productId = $('#productId').val();
+				loadComments(productId);
+
+
+				$("#review_submit").click(function (e) {
+					e.preventDefault();
+
+					var obj = {
+						ProductId: $('#productId').val(),
+						Name: $('#review_name').val(),
+						Email: $('#review_email').val(),
+						Content: $('#review_message').val(),
+						Rating: $('#Rating').val() // Ensure Rating is included
+					};
+
+					$.ajax({
+						url: '/Comments/AddComment',
+						type: 'POST',
+						data: JSON.stringify(obj),
+						contentType: 'application/json',
+						success: function (response) {
+							// alert('Comment added successfully');
+
+							location.reload();
+						},
+						error: function (xhr, status, error) {
+							console.error('Error adding comment:', xhr.responseText);
+							alert('An error occurred while adding the comment: ' + xhr.responseText);
+						}
+					});
+				});
+			});
+		</script>
+	}
+
 </body>

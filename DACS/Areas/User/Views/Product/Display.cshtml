@@ -57,7 +57,7 @@
 								<div class="single_product_image">
 									@if (!string.IsNullOrEmpty(Model.ImageUrl))
 									{
-										<img src="@Model.ImageUrl" alt="Product Image" style="max-width: 200px;" />
+										<img src="@Model.ImageUrl" alt="Product Image" style="width: 375px; height 436px" />
 									}
 								</div>
 							</div>
@@ -144,8 +144,7 @@
 											<div>
 												<h1>Add Review</h1>
 												<input type="hidden" id="productId" value="@Model.Id" />
-												<input id="review_name" class="form_input input_name" type="text" name="name" placeholder="Name*" required="required" data-error="Name is required.">
-												<input id="review_email" class="form_input input_email" type="email" name="email" placeholder="Email*" required="required" data-error="Valid email is required.">
+												
 											</div>
 											<div>
 												<h1>Your Rating:</h1>
