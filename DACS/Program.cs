@@ -1,4 +1,4 @@
-using DACS.DataAccess;
+﻿using DACS.DataAccess;
 using DACS.Interface;
 using DACS.Models;
 using DACS.Models.EF;
@@ -6,6 +6,10 @@ using DACS.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Configuration;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Hosting;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,7 +37,22 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     options.Lockout.MaxFailedAccessAttempts = 3;
     options.Lockout.AllowedForNewUsers = true;
+
 });
+var configuration = builder.Configuration;
+
+builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+{
+	IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
+	googleOptions.ClientId = googleAuthNSection["ClientId"];
+
+	googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
+
+	// Cấu hình Url callback lại từ Google (không thiết lập thì mặc định là /signin-google)
+	googleOptions.CallbackPath = "/dang-nhap-bang-google";
+});
+
+
 builder.Services.AddRazorPages();
                
 builder.Services.AddScoped<ICategory, EFCategory>();
