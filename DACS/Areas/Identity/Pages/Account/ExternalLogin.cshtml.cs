@@ -9,6 +9,9 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using XTLASPNET;
+using DACS.Models.EF;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DACS.Areas.Identity.Pages.Account
 {
@@ -48,6 +51,12 @@ namespace DACS.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Địa chỉ email")]
             public string Email { get; set; }
+
+            public string FullName { get; set; }
+
+            public string? Role { get; set; }
+            [ValidateNever]
+            public IEnumerable<SelectListItem> RoleList { get; set; }
         }
 
         public IActionResult OnGetAsync()
@@ -142,6 +151,25 @@ namespace DACS.Areas.Identity.Pages.Account
             }
         }
 
+
+
+        private ApplicationUser CreateUser()
+        {
+            try
+            {
+                return Activator.CreateInstance<ApplicationUser>();
+            }
+            catch
+            {
+
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
+                    $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
+            }
+        }
+
+
+
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
@@ -179,6 +207,7 @@ namespace DACS.Areas.Identity.Pages.Account
                     var resultAdd = await _userManager.AddLoginAsync(userWithexternalMail, info);
                     if (resultAdd.Succeeded)
                     {
+                        
                         // Thực hiện login    
                         await _signInManager.SignInAsync(userWithexternalMail, isPersistent: false);
                         return ViewComponent(MessagePage.COMPONENTNAME, new MessagePage.Message()
@@ -200,11 +229,18 @@ namespace DACS.Areas.Identity.Pages.Account
                 }
 
                 // Tài khoản chưa có, tạo tài khoản mới
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FullName = Input.FullName };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
-
+                    if (!String.IsNullOrEmpty(Input.Role))
+                    {
+                        await _userManager.AddToRoleAsync(user, Input.Role);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, SD.Role_User);
+                    }
                     // Liên kết tài khoản ngoài với tài khoản vừa tạo
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
