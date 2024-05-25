@@ -16,7 +16,7 @@ namespace DACS.Models
             mailMessage.Body = link;
 
             SmtpClient client = new SmtpClient();
-            client.Credentials = new System.Net.NetworkCredential("doantogiabao@gmail.com", "uurh uckd egxf jtgf");
+            client.Credentials = new System.Net.NetworkCredential("doantogiabao@gmail.com", "chln htzc cuvm ljqi");
             client.Host = "smtp.gmail.com";
             client.Port = 587;
             client.EnableSsl = true;
