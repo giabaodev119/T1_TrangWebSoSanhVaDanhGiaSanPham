@@ -29,4 +29,13 @@
     <Folder Include="Areas\User\Models\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\login\css\.DS_Store" />
+    <None Include="wwwroot\login\css\bootstrap\.DS_Store" />
+    <None Include="wwwroot\login\css\bootstrap\mixins\.DS_Store" />
+    <None Include="wwwroot\login\fonts\.DS_Store" />
+    <None Include="wwwroot\login\images\.DS_Store" />
+    <None Include="wwwroot\login\js\.DS_Store" />
+  </ItemGroup>
+
 </Project>

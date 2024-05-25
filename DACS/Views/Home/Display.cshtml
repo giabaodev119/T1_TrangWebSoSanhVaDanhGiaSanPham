@@ -1,7 +1,8 @@
 ﻿@model DACS.Models.EF.Product
+@using Microsoft.AspNetCore.Http
 @{
-    ViewData["Title"] = "Display";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Display";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <head>
 	<title>Single Product</title>
@@ -18,7 +19,7 @@
 	<link rel="stylesheet" type="text/css" href="~/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
 	<link rel="stylesheet" type="text/css" href="~/assets/styles/single_styles.css">
 	<link rel="stylesheet" type="text/css" href="~/assets/styles/single_responsive.css">
-</head>											 
+</head>
 <body>
 
 	<div class="super_container">
@@ -30,7 +31,7 @@
 
 					<div class="breadcrumbs d-flex flex-row align-items-center">
 						<ul>
-							<li><a asp-action ="Index">Home</a></li>
+							<li><a asp-action="Index">Home</a></li>
 							<li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Single Product</a></li>
 						</ul>
 					</div>
@@ -48,7 +49,7 @@
 								<div class="single_product_image">
 									@if (!string.IsNullOrEmpty(Model.ImageUrl))
 									{
-										<img src="@Model.ImageUrl" alt="Product Image" style="max-width: 200px;" />
+										<img src="@Model.ImageUrl" alt="Product Image" style="width: 375px; height 436px" />
 									}
 								</div>
 							</div>
@@ -62,7 +63,7 @@
 						</div>
 
 						<div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
-							<form method="post" action="@Url.Action("AddToCart", "CheckingCart")">
+							<form method="post" asp-area="user" asp-controller="CheckingCart" asp-action="AddToCart">
 								<input type="hidden" name="productId" value="@Model.Id" />
 								<input type="hidden" name="quantity" value="1" />
 								<div class="row">
@@ -107,6 +108,10 @@
 							</div>
 						</div>
 
+
+						@{
+							var isAuthenticated = User.Identity.IsAuthenticated;
+						}
 						<!-- Tab Reviews -->
 
 						<div id="tab_2" class="tab_container">
@@ -116,7 +121,7 @@
 
 								<div class="col-lg-6 reviews_col">
 									<div class="tab_title reviews_title">
-										<h4>Reviews (2)</h4>
+										<h4>Reviews </h4>
 									</div>
 
 									<!-- User Review -->
@@ -129,34 +134,41 @@
 
 								<!-- Add Review -->
 
+
 								<div class="col-lg-6 add_review_col">
 
 									<div class="add_review">
-										<form id="review_form" action="post">
-											<div>
-												<h1>Add Review</h1>
-												<input type="hidden" id="productId" value="@Model.Id" />
+										@if (isAuthenticated)
+										{
+											<form id="review_form" action="post">
+												<div>
+													<h1>Add Review</h1>
+													<input type="hidden" id="productId" value="@Model.Id" />
+												</div>
+												<div>
+													<h1>Your Rating:</h1>
+													<input type="number" id="Rating" name="rating" placeholder="Rating (1-5)" min="1" max="5" required />
+													<ul class="user_star_rating">
+														<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													</ul>
+													<textarea id="review_message" class="input_review" name="message" placeholder="Your Review" rows="4" required data-error="Please, leave us a review."></textarea>
+												</div>
+												<div class="text-left text-sm-right">
+													<button id="review_submit" type="submit" class="red_button review_submit_btn trans_300" value="Submit">submit</button>
+												</div>
+											</form>
+										}
+										else
+										{
+											<a>Bạn muốn sử dụng tính năng này, hãy đăng nhập để sử dụng nó!<a href="~/Identity/Account/Login">Đăng nhập.</a></a>
+										}
 
-											</div>
-											<div>
-												<h1>Your Rating:</h1>
-												<input type="number" id="Rating" name="rating" placeholder="Rating (1-5)" min="1" max="5" required />
-												<ul class="user_star_rating">
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-												</ul>
-												<textarea id="review_message" class="input_review" name="message" placeholder="Your Review" rows="4" required data-error="Please, leave us a review."></textarea>
-											</div>
-											<div class="text-left text-sm-right">
-												<button id="review_submit" type="submit" class="red_button review_submit_btn trans_300" value="Submit">submit</button>
-											</div>
-										</form>
 									</div>
 
 								</div>
 
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>
@@ -173,8 +185,6 @@
 	<script src="~/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 	<script src="~/assets/js/single_custom.js"></script>
 
-
-
 	@section Scripts {
 		<script>
 			$(document).ready(function () {
@@ -186,8 +196,8 @@
 						url: "/Comments/GetComments",
 						type: "GET",
 						data: {
-							productId: productId
-						},
+							productId: @Model.Id
+									},
 						success: function (data) {
 							$("#comment-list").html(data);
 							console.log(2);
@@ -201,37 +211,10 @@
 
 				var productId = $('#productId').val();
 				loadComments(productId);
-
-
-				$("#review_submit").click(function (e) {
-					e.preventDefault();
-
-					var obj = {
-						ProductId: $('#productId').val(),
-						Name: $('#review_name').val(),
-						Email: $('#review_email').val(),
-						Content: $('#review_message').val(),
-						Rating: $('#Rating').val() // Ensure Rating is included
-					};
-
-					$.ajax({
-						url: '/Comments/AddComment',
-						type: 'POST',
-						data: JSON.stringify(obj),
-						contentType: 'application/json',
-						success: function (response) {
-							// alert('Comment added successfully');
-
-							location.reload();
-						},
-						error: function (xhr, status, error) {
-							console.error('Error adding comment:', xhr.responseText);
-							alert('An error occurred while adding the comment: ' + xhr.responseText);
-						}
-					});
-				});
 			});
 		</script>
 	}
 
 </body>
+
+

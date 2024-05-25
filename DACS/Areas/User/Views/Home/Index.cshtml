@@ -46,11 +46,11 @@
                                     <div class="product-item">
                                         <div class="product discount">
                                             <div class="product_image">
-                                                <img src=" @Html.DisplayFor(Model => item.ImageUrl)" alt="">
+                                                <img src=" @Html.DisplayFor(Model => item.ImageUrl)" alt="" style="height: 218px; width: 218px" />
                                             </div>
                                             <div class="favorite favorite_left"></div>
                                             <div class="product_info">
-                                                <h6 class="product_name">
+                                                <h6 class="product_name" style="margin-top: 50px">
                                                     <a asp-action="Display" asp-route-id="@item.Id">@item.Name</a>
                                                 </h6>
                                             </div>

@@ -35,7 +35,7 @@ namespace DACS.Areas.User.Controllers
             int pageNum = page ?? 1;
             if (!string.IsNullOrEmpty(Searchtext))
             {
-                post = post.Where(post => post.Alias.Contains(Searchtext) || post.Title.Contains(Searchtext)).ToList();
+                post = post.Where(post => post.Alias.ToUpper().Contains(Searchtext) || post.Title.ToUpper().Contains(Searchtext)).ToList();
             }
             return View(post.ToPagedList(pageNum, pageSize));
         }

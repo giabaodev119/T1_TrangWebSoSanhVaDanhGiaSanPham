@@ -19,7 +19,7 @@ namespace DACS.Controllers
 			_productcategory = productcategory;
 			_context = context;
 		}
-		public async Task<IActionResult> Index(int? productcategoryId, int? page /*string Searchtext*/)
+		public async Task<IActionResult> Index(int? productcategoryId, int? page ,string Searchtext)
 		{
 
 			var categories = _context.ProductCategory.ToList();
@@ -38,12 +38,11 @@ namespace DACS.Controllers
 			}
 			int pageSize = 10;
 			int pageNum = page ?? 1;
-			//var products = await _product.GetAllAsync();
 
-			//if (!string.IsNullOrEmpty(Searchtext))
-			//{
-			//	products = products.Where(products => products.Name.ToUpper().Contains(Searchtext.ToUpper())).ToList();
-			//}
+			if (!string.IsNullOrEmpty(Searchtext))
+			{
+				products = products.Where(products => products.Name.ToUpper().Contains(Searchtext.ToUpper())).ToList();
+            }
 			return View(products.ToPagedList(pageNum, pageSize));
 			
 		}
