@@ -19,10 +19,17 @@
                         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                             @foreach (var item in Model.Items)
                             {
-                                <div class="col-3">
+                                <div class="col-6">
                                     <div class="card" style=" height: 420px; margin-bottom: 10px">
-                                        <img src="@item.ImageUrl" alt="Product Image" style="max-width: 300px;" />
-                                        <h2>@item.Name</h2>
+                                        <img src="@item.ImageUrl" alt="Product Image" style="height: 218px; width: 218px; position: absolute;top: 50%; left: 50%;transform: translate(-50%, -50%);" />
+                                        @* <div class="product_info">
+                                            <h2>@item.Name</h2>
+                                        </div> *@
+                                    </div>
+                                    <div class="card" style=" height: 100px; margin-bottom: 10px">
+                                        <div class="product_info">
+                                            <h2>@item.Name</h2>
+                                        </div>
                                     </div>
                                     <div class="card" style=" margin-bottom: 10px">
                                         <h3>@Html.Raw(item.Detail)</h3>
