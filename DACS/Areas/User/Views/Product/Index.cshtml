@@ -38,7 +38,12 @@
 			</div>
 
 			<!-- Sidebar -->
-
+			@if (TempData["Message"] != null)
+			{
+				<div class="alert alert-success">
+					@TempData["Message"]
+				</div>
+			}
 			<div class="sidebar">
 				<div class="sidebar_section">
 					<div class="sidebar_title">

@@ -10,7 +10,9 @@
         public string? ImageUrl { get; set; }
         public string Detail { get; set; }
 
+        public double? AvgRating { get; set; }
 
+        public int ProductCategoryId { get; set; }
 
     }
 }

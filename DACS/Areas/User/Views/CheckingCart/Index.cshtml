@@ -31,9 +31,15 @@
                                             <h2>@item.Name</h2>
                                         </div>
                                     </div>
+                                    <div class="card" style=" height: 100px; margin-bottom: 10px">
+                                        <div class="product_info">
+                                            <h2>@Html.Raw(item.AvgRating)/5 <i class="fa fa-star" aria-hidden="true"></i></h2>
+                                        </div>
+                                    </div>
                                     <div class="card" style=" margin-bottom: 10px">
                                         <h3>@Html.Raw(item.Detail)</h3>
                                         <h3>@Html.Raw(item.AddressAndPrice)</h3>
+                                        
                                         <a class="btn btn-primary" asp-controller="Home" asp-action="Display" asp-route-id="@item.ProductId">Details</a>
                                         <a class="btn btn-danger" asp-action="RemoveFromCart" asp-route-productId="@item.ProductId">Remove</a>
                                     </div>

@@ -28,6 +28,7 @@ namespace DACS.Controllers
             {
                 products = products.Where(products => products.Name.ToUpper().Contains(Searchtext.ToUpper())).ToList();
             }
+            
             return View(products);
         }
         public async Task<IActionResult> Display(int id)

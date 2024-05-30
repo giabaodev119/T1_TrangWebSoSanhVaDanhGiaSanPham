@@ -4,6 +4,7 @@ using DACS.Models.EF;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using System.Drawing.Imaging;
 using X.PagedList;
 
 namespace DACS.Controllers
@@ -12,12 +13,14 @@ namespace DACS.Controllers
 	{
 		private readonly ApplicationDbContext _context;
 		private readonly IProduct _product;
+		private readonly IProductComment _productComment;
 		private readonly IProductCategory _productcategory;
-		public ProductController(IProduct product, IProductCategory productcategory, ApplicationDbContext context)
+		public ProductController(IProduct product, IProductCategory productcategory, ApplicationDbContext context,IProductComment cmt)
 		{
 			_product = product;
 			_productcategory = productcategory;
 			_context = context;
+			_productComment = cmt;
 		}
 		public async Task<IActionResult> Index(int? productcategoryId, int? page ,string Searchtext)
 		{
@@ -53,6 +56,8 @@ namespace DACS.Controllers
 			{
 				return NotFound();
 			}
+			ViewBag.total = _productComment.TotalCommentCount(id);
+			ViewBag.avgrating = _productComment.AvgComment(id);
 			return View(product);
 		}
     }

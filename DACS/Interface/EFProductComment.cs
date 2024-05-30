@@ -46,5 +46,22 @@ namespace DACS.Interface
             _context.productComments.Update(productComment);
             await _context.SaveChangesAsync();
         }
-    }
+		public int TotalCommentCount(int productId)
+		{
+			return _context.productComments.Count(x => x.ProductId == productId);
+		}
+        public double AvgComment(int productId)
+        {
+            var count = _context.productComments.Count(x => x.ProductId == productId);
+            var tmp = _context.productComments.Where(x => x.ProductId == productId).ToList();
+            int total = 0;
+            foreach (var item in tmp)
+            {
+                total += item.Rating;
+
+            }
+            return (double) total / count;
+
+		}
+	}
 }

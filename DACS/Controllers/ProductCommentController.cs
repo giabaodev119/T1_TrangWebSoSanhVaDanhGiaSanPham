@@ -57,6 +57,8 @@ namespace DACS.Controllers
                     };
 
                     await _productcomment.AddAsync(pCmnt);
+
+
                     return Ok();
                 }
                 catch (Exception ex)

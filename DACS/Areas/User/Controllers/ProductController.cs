@@ -59,6 +59,8 @@ namespace DACS.Areas.User.Controllers
 			{
 				return NotFound();
 			}
+			ViewBag.total = _productcomment.TotalCommentCount(id);
+			ViewBag.avgrating = _productcomment.AvgComment(id);
 			return View(product);
 		}
 	}

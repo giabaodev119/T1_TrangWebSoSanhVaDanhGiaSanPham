@@ -13,5 +13,7 @@ namespace DACS.Interface
 		Task AddAsync(ProductComment productComment);
         Task UpdateAsync(ProductComment productComment);
         Task Delete(int id);
-    }
+        public int TotalCommentCount(int productId);
+        public double AvgComment(int productId);
+	}
 }
