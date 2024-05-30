@@ -22,9 +22,6 @@
                                 <div class="col-6">
                                     <div class="card" style=" height: 420px; margin-bottom: 10px">
                                         <img src="@item.ImageUrl" alt="Product Image" style="height: 218px; width: 218px; position: absolute;top: 50%; left: 50%;transform: translate(-50%, -50%);" />
-                                        @* <div class="product_info">
-                                            <h2>@item.Name</h2>
-                                        </div> *@
                                     </div>
                                     <div class="card" style=" height: 100px; margin-bottom: 10px">
                                         <div class="product_info">
@@ -34,6 +31,7 @@
                                     <div class="card" style=" height: 100px; margin-bottom: 10px">
                                         <div class="product_info">
                                             <h2>@Html.Raw(item.AvgRating)/5 <i class="fa fa-star" aria-hidden="true"></i></h2>
+                                            
                                         </div>
                                     </div>
                                     <div class="card" style=" margin-bottom: 10px">

@@ -15,5 +15,6 @@ namespace DACS.Interface
         Task Delete(int id);
         public int TotalCommentCount(int productId);
         public double AvgComment(int productId);
-	}
+
+    }
 }

@@ -7,9 +7,11 @@ namespace DACS.Interface
     public class EFProductComment : IProductComment
     {
         private readonly ApplicationDbContext _context;
-        public EFProductComment(ApplicationDbContext context)
+        private readonly IProduct _product;
+        public EFProductComment(ApplicationDbContext context, IProduct product)
         {
             _context = context;
+            _product = product;
         }
         public async Task AddAsync(ProductComment productComment)
         {
@@ -54,14 +56,19 @@ namespace DACS.Interface
         {
             var count = _context.productComments.Count(x => x.ProductId == productId);
             var tmp = _context.productComments.Where(x => x.ProductId == productId).ToList();
-            int total = 0;
-            foreach (var item in tmp)
+            if (count != 0)
             {
-                total += item.Rating;
+                int total = 0;
+                foreach (var item in tmp)
+                {
+                    total += item.Rating;
 
+                }
+                var avgrating = (double)total / count;
+                return Math.Round(avgrating, 1);
             }
-            return (double) total / count;
-
+            return  0;
 		}
+
 	}
 }
