@@ -1,17 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 
-namespace DACS.Models
+namespace DACS.Models.EF
 {
-    public class EmailHelper
+    public class EmailSender
     {
-        public bool SendEmail(string userEmail, string link)
+        public bool SendEmailPasswordReset(string userEmail, string link)
         {
             MailMessage mailMessage = new MailMessage();
             mailMessage.From = new MailAddress("doantogiabao@gmail.com");
             mailMessage.To.Add(new MailAddress(userEmail));
 
-            mailMessage.Subject = "Cảm ơn bạn đã đóng góp";
+            mailMessage.Subject = "Reset Mật Khẩu" 
+                ;
             mailMessage.IsBodyHtml = true;
             mailMessage.Body = link;
 
@@ -34,3 +34,4 @@ namespace DACS.Models
         }
     }
 }
+

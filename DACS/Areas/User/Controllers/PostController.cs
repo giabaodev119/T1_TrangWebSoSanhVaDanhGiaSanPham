@@ -56,7 +56,7 @@ namespace DACS.Areas.User.Controllers
                 post.Alias = Models.Common.Filter.FilterChar(post.Title);
                 await _post.AddAsync(post);
                 EmailHelper EmailHelper = new EmailHelper();
-                bool Email = EmailHelper.SendEmailPasswordReset(user.Email, "Cảm ơn bạn đã đăng bài. Bài viết của bạn sẽ được hiển thị sau khi chúng tôi kiểm duyệt xong! Thân chào");
+                bool Email = EmailHelper.SendEmail(user.Email, "Cảm ơn bạn đã đăng bài. Bài viết của bạn sẽ được hiển thị sau khi chúng tôi kiểm duyệt xong! Thân chào");
                 return RedirectToAction(nameof(Index));
             }
             
