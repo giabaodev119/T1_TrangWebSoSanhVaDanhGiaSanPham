@@ -69,10 +69,7 @@ namespace DACS.Areas.User.Controllers
             }
 
             return RedirectToAction("Index");
-        }
-      
-
-        
+        } 
     }
 
 }
