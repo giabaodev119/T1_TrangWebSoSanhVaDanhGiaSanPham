@@ -42,6 +42,7 @@ namespace DACS.Controllers
         public async Task<IActionResult> AddComment([FromBody] CommentViewModel cmt)
         {
             var user = await _userManager.GetUserAsync(User);
+            
             if (ModelState.IsValid)
             {
                 try
@@ -57,7 +58,49 @@ namespace DACS.Controllers
                     };
 
                     await _productcomment.AddAsync(pCmnt);
+                    var product1 = await _product.GetByIdAsync(cmt.ProductId);
+                    var existingProduct = await _product.GetByIdAsync(cmt.ProductId);
+                    if (_productcomment.AvgComment(cmt.ProductId) >= 4)
+                    {
 
+                        
+                        existingProduct.Name = product1.Name;
+                        existingProduct.Detail = product1.Detail;
+                        existingProduct.AddressAndPrice = product1.AddressAndPrice;
+                        existingProduct.ProductCategoryId = product1.ProductCategoryId;
+                        existingProduct.IsFeature = product1.IsFeature;
+                        existingProduct.IsHot = true;
+                        existingProduct.IsActive = product1.IsActive;
+                        existingProduct.SeoDescription = product1.SeoDescription;
+                        existingProduct.SeoKeywords = product1.SeoKeywords;
+                        existingProduct.SeoTitle = product1.SeoTitle;
+                        existingProduct.ModifiedDate = product1.ModifiedDate;
+                        existingProduct.Alias = Models.Common.Filter.FilterChar(product1.Name);
+                        existingProduct.ImageUrl = product1.ImageUrl;
+
+                        await _product.UpdateAsync(existingProduct);
+
+
+                    } else
+                    {
+                        
+                        existingProduct.Name = product1.Name;
+                        existingProduct.Detail = product1.Detail;
+                        existingProduct.AddressAndPrice = product1.AddressAndPrice;
+                        existingProduct.ProductCategoryId = product1.ProductCategoryId;
+                        existingProduct.IsFeature = product1.IsFeature;
+                        existingProduct.IsHot = false;
+                        existingProduct.IsActive = product1.IsActive;
+                        existingProduct.SeoDescription = product1.SeoDescription;
+                        existingProduct.SeoKeywords = product1.SeoKeywords;
+                        existingProduct.SeoTitle = product1.SeoTitle;
+                        existingProduct.ModifiedDate = product1.ModifiedDate;
+                        existingProduct.Alias = Models.Common.Filter.FilterChar(product1.Name);
+                        existingProduct.ImageUrl = product1.ImageUrl;
+
+                        await _product.UpdateAsync(existingProduct);
+
+                    }
 
                     return Ok();
                 }

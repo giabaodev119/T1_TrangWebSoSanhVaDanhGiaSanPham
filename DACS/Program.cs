@@ -1,4 +1,4 @@
-﻿using DACS.DataAccess;
+using DACS.DataAccess;
 using DACS.Interface;
 using DACS.Models;
 using DACS.Models.EF;
@@ -25,6 +25,8 @@ builder.Services.AddSession(options =>
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
         .AddDefaultTokenProviders()

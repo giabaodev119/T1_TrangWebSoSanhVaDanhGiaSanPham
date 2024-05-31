@@ -17,11 +17,13 @@ namespace DACS.Areas.User.Controllers
         private readonly IProduct _productRepository;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        public CheckingCartController(ApplicationDbContext context,UserManager<ApplicationUser> userManager, IProduct productRepository)
+		private readonly IProductComment _productcomment;
+		public CheckingCartController(ApplicationDbContext context,UserManager<ApplicationUser> userManager, IProduct productRepository, IProductComment cmt)
         {
             _context = context;
             _userManager = userManager;
             _productRepository = productRepository;
+			_productcomment = cmt;
         }
         public async Task<IActionResult> AddToCart(int productId)
         {
@@ -33,20 +35,34 @@ namespace DACS.Areas.User.Controllers
                 Name = product.Name,
                 ImageUrl = product.ImageUrl,
                 Detail = product.Detail,
-                AddressAndPrice = product.AddressAndPrice
+                AddressAndPrice = product.AddressAndPrice,
+                ProductCategoryId = product.ProductCategoryId,
+                AvgRating = _productcomment.AvgComment(productId)
 
-            };
+			};
             var cart = HttpContext.Session.GetObjectFromJson<CheckingCart>("Cart") ?? new CheckingCart();
+
+            if (cart.totalcart() == 2)
+            {
+                TempData["Message"] = "Không được thêm quá 2 sản phẩm";
+                return RedirectToAction("Index", "Product");
+            }
+            else if (cart.condition(cartItem) == false)
+            {
+                TempData["Message"] = "Không được thêm 2 sản phẩm khác loại";
+                return RedirectToAction("Index", "Product");
+            }
+            
             cart.AddItem(cartItem);
 
             HttpContext.Session.SetObjectAsJson("Cart", cart);
 
             return RedirectToAction("Index", "Product");
         }
-        public IActionResult Index()
+        public IActionResult Index(int id)
         {
             var cart = HttpContext.Session.GetObjectFromJson<CheckingCart>("Cart") ?? new CheckingCart();
-            return View(cart);
+			return View(cart);
         }
         // Các actions khác... 
         private async Task<Product> GetProductFromDatabase(int productId)

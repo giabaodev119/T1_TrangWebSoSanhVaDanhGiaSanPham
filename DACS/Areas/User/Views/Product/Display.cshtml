@@ -157,6 +157,22 @@
 												<ul class="user_star_rating">
 													<li><i class="fa fa-star" aria-hidden="true"></i></li>
 												</ul>
+												<span id="ratingError" style="color: red; display: none;">Vui lòng nhập một số từ 1 đến 5.</span>
+
+												<script>
+													document.getElementById("Rating").addEventListener("input", function () {
+														var rating = parseInt(this.value);
+														var errorSpan = document.getElementById("ratingError");
+
+														if (rating < 1 || rating > 5 || isNaN(rating)) {
+															errorSpan.style.display = "inline";
+															this.value = ''; // Xóa giá trị nếu nó nằm ngoài khoảng giá trị cho phép
+														} else {
+															errorSpan.style.display = "none";
+														}
+													});
+
+												</script>
 												<textarea id="review_message" class="input_review" name="message" placeholder="Your Review" rows="4" required data-error="Please, leave us a review."></textarea>
 											</div>
 											<div class="text-left text-sm-right">

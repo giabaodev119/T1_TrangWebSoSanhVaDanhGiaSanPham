@@ -26,6 +26,7 @@ namespace DACS.Controllers
 		{
 
 			var categories = _context.ProductCategory.ToList();
+
 			ViewBag.ProductCategory = categories;
 			
 
@@ -46,19 +47,22 @@ namespace DACS.Controllers
 			{
 				products = products.Where(products => products.Name.ToUpper().Contains(Searchtext.ToUpper())).ToList();
             }
-			return View(products.ToPagedList(pageNum, pageSize));
+            
+            return View(products.ToPagedList(pageNum, pageSize));
 			
 		}
 		public async Task<IActionResult> Display(int id)
 		{
-			var product = await _product.GetByIdAsync(id);
-			if (product == null)
+			var product1 = await _product.GetByIdAsync(id);
+			if (product1 == null)
 			{
 				return NotFound();
 			}
+			
 			ViewBag.total = _productComment.TotalCommentCount(id);
 			ViewBag.avgrating = _productComment.AvgComment(id);
-			return View(product);
+
+            return View(product1);
 		}
     }
 }
