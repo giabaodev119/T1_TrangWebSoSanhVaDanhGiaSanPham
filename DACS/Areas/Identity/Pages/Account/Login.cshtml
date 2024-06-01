@@ -4,90 +4,107 @@
 @{
     ViewData["Title"] = "TÀI KHOẢN";
 }
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<h3>@ViewData["Title"]</h3>
-<div class="main_slider">
-    <div class="row justify-content-center">
-        <div class="col-md-4">
-            <section>
-                <form id="account" method="post">
-                    <h4>ĐĂNG NHẬP</h4>
-                    <hr />
-                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                    <div class="form-floating mb-3">
-                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                        <label asp-for="Input.Email" class="form-label">Email</label>
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                        <label asp-for="Input.Password" class="form-label">Mật khẩu</label>
-                        <span asp-validation-for="Input.Password" class="text-danger"></span>
-                    </div>
-                    <div class="checkbox mb-3">
-                        <label asp-for="Input.RememberMe" class="form-label">
-                            <input class="form-check-input" asp-for="Input.RememberMe" />
-                            @Html.DisplayNameFor(m => m.Input.RememberMe)
-                        </label>
-                    </div>
-                    <div>
-                        <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-dark">Đăng Nhập</button>
-                    </div>
-                    <div>
-                        <div class="text-center mt-3">
-                            <p>
-                                <a id="forgot-password" asp-page="./ForgotPassword">Quên mật khẩu?</a>
-                            </p>
-                        </div>
-                        <div class="text-center mt-3">
-                            <p>
-                                Chưa có tài khoản?<a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl"> Đăng kí ngay</a>
-                            </p>
-                        </div>
-                        <div class="text-center mt-3">
-                            <p>
-                                <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                            </p>
-                        </div>
-                    </div>
-                </form>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet">
 
-            </section>
-        </div>
-        <div class="col-md-6 col-md-offset-2">
-            <section>
-                <h3>Đăng nhập bằng ứng dụng khác.</h3>
-                <hr />
-                @{
-                    if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                    {
-                        <div>
-                            <p>
-                                There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
-                                    article
-                                    about setting up this ASP.NET application to support logging in via external services
-                                </a>.
-                            </p>
-                        </div>
-                    }
-                    else
-                    {
-                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                            <div>
-                                <p>
-                                    @foreach (var provider in Model.ExternalLogins!)
-                                    {
-                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                    }
-                                </p>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="~/login/css/style.css">
+
+</head>
+
+
+
+<body>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-lg-10">
+                    <div class="wrap d-md-flex">
+                        <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
+                            <div class="text w-100">
+                                <h2>Chào mừng bạn đến với WebSS</h2>
+                                <p>Chưa có tài khoản</p>
+                                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-white btn-outline-white">Đăng kí</a>
                             </div>
-                        </form>
-                    }
-                }
-            </section>
+                        </div>
+                        <div class="login-wrap p-4 p-lg-5">
+                            <div class="d-flex">
+                                <div class="w-100">
+                                    <h3 class="mb-4">Đăng nhập</h3>
+                                </div>
+                                <div class="w-100">
+                                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                        <div>
+                                            <p class="social-media d-flex justify-content-end">
+                                                @foreach (var provider in Model.ExternalLogins!)
+                                                {
+                                                    <button type="submit" class="social-icon d-flex align-items-center justify-content-center" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                                        <span class="fa fa-google"></span>
+                                                    </button>
+                                                }
+                                            </p>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                            <form id="account" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                                <div class="form-floating mb-3">
+                                    <label class="label" for="name">Tài khoản</label>
+                                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <label class="label" for="name">Mật khẩu</label>
+                                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <button id="login-submit" type="submit" class="form-control btn btn-primary submit px-3">Đăng Nhập</button>
+                                </div>
+                                <div class="form-group d-md-flex">
+                                    <div class="w-50 text-left">
+                                        <label asp-for ="Input.RememberMe" class="checkbox-wrap checkbox-primary mb-0">
+                                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                            <input asp-for="Input.RememberMe" type="checkbox" checked/>
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                    <div class="w-50 text-md-right">
+
+                                        <div class="text-lg-left">
+                                            <p>
+                                                <a id="forgot-password" asp-page="./ForgotPassword">&#x2022; Quên mật khẩu</a>
+                                            </p>
+                                        </div>
+                                        <div class="text-lg-left">
+                                            <p>
+                                                <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">&#x2022; Xác thực lại tài khoản</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+    </section>
+
+    <script src="~/login/js/jquery.min.js"></script>
+    <script src="~/login/js/popper.js"></script>
+    <script src="~/login/js/bootstrap.min.js"></script>
+    <script src="~/login/js/main.js"></script>
+
+</body>
+
+
 
 
 @section Scripts {
