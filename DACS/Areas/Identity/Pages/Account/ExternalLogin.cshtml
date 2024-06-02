@@ -41,13 +41,14 @@
                             <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <div class="form-floating mb-3">
-                                    <label asp-for="Input.Email"></label>
-                                    <input asp-for="Input.Email" class="form-control" />
+                                    <input asp-for="Input.Email" class="form-control" id="emailInput"/>
+                                    <label for="emailInput">Email</label>
                                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                                 </div>
+
                                 <div class="form-floating mb-3">
-                                    <label asp-for="Input.FullName"></label>
-                                    <input asp-for="Input.FullName" class="form-control" />
+                                    <input asp-for="Input.FullName" class="form-control" id="fullNameInput"/>
+                                    <label for="fullNameInput">Họ & tên</label>
                                     <span asp-validation-for="Input.FullName" class="text-danger"></span>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Đăng ký</button>

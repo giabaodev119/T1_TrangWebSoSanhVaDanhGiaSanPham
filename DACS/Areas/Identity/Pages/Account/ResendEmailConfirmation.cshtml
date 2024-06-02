@@ -35,15 +35,15 @@
                                 </div>
                             </div
                             <div class="row">
-                                    <form method="post">
-                                        <div asp-validation-summary="All" class="text-danger" role="alert"></div>
-                                        <div class="form-floating mb-3">
-                                            <label asp-for="Input.Email" class="form-label"></label>
-                                            <input asp-for="Input.Email" class="form-control" aria-required="true" placeholder="name@example.com" />
-                                            <span asp-validation-for="Input.Email" class="text-danger"></span>
-                                        </div>
-                                        <button type="submit" class="w-100 btn btn-lg btn-primary">Gởi lại</button>
-                                    </form>
+                                <form method="post">
+                                    <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Input.Email" class="form-control" id="emailInput" aria-required="true"/>
+                                        <label for="emailInput">Email</label>
+                                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                    </div>
+                                    <button type="submit" class="w-100 btn btn-lg btn-primary">Gởi lại</button>
+                                </form>
                             </div>
                         </div>
                     </div>
