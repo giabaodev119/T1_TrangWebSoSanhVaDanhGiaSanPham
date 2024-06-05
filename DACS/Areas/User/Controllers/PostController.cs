@@ -1,10 +1,12 @@
-﻿using DACS.Interface;
+﻿using DACS.DataAccess;
+using DACS.Interface;
 using DACS.Models;
 using DACS.Models.EF;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
 namespace DACS.Areas.User.Controllers
@@ -13,14 +15,16 @@ namespace DACS.Areas.User.Controllers
     [Authorize(Roles = "User")]
     public class PostController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly IPost _post;
         private readonly ICategory _category;
         private readonly UserManager<ApplicationUser> _userManager;
-        public PostController(IPost post, UserManager<ApplicationUser>userManager, ICategory category)
+        public PostController(IPost post, UserManager<ApplicationUser>userManager, ICategory category, ApplicationDbContext context)
         {
             _userManager = userManager;
             _post = post;
             _category = category;
+            _context = context;
         }
         public async Task<IActionResult> Add()
         {
@@ -28,20 +32,43 @@ namespace DACS.Areas.User.Controllers
             ViewBag.Category = new SelectList(category, "Id", "Title");
             return View();
         }
-        public async Task<IActionResult> Index(string Searchtext, int? page)
+        public async Task<IActionResult> Index(string Searchtext, int? page, int? categoryId)
         {
-            var post = await _post.GetWithIsActiveAsync();
+            var categories = _context.Categories.ToList();
+            ViewBag.Category = categories;
+
+            //var posts = categoryId.HasValue ?
+
+            //    _context.Posts.Where(p => p.CategoryId == categoryId.Value).ToList() :
+
+            //    _context.Posts.ToList();
+
+            //var post = await _post.GetWithIsActiveAsync();
+
+
+            var query = _context.Posts.AsQueryable();
+
+            if (categoryId.HasValue)
+            {
+                query = query.Where(p => p.CategoryId == categoryId.Value);
+            }
+
+            query = query.Where(p => p.IsActive);
+
+            if (!string.IsNullOrEmpty(Searchtext))
+            {
+                var searchTextUpper = Searchtext.ToUpper();
+                query = query.Where(post => post.Alias.ToUpper().Contains(searchTextUpper) || post.Title.ToUpper().Contains(searchTextUpper));
+            }
+
+            var posts = await query.ToArrayAsync();
             if (page == null)
             {
                 page = 1;
             }
             int pageSize = 3;
             int pageNum = page ?? 1;
-            if (!string.IsNullOrEmpty(Searchtext))
-            {
-                post = post.Where(post => post.Alias.ToUpper().Contains(Searchtext) || post.Title.ToUpper().Contains(Searchtext)).ToList();
-            }
-            return View(post.ToPagedList(pageNum, pageSize));
+            return View(posts.ToPagedList(pageNum, pageSize));
         }
         [HttpPost]
         public async Task<IActionResult> Add(Post post, IFormFile imageUrl)
@@ -54,7 +81,7 @@ namespace DACS.Areas.User.Controllers
                     // Lưu hình ảnh đại diện
                     post.ImageUrl = await SaveImage(imageUrl);
                 }
-                post.CreateBy = user.FullName;
+                post.CreateBy = user.UserName;
                 post.CreateDate = DateTime.Now;
                 post.ModifiedDate = DateTime.Now;
                 post.Alias = Models.Common.Filter.FilterChar(post.Title);

@@ -1,7 +1,10 @@
 ﻿using DACS.Interface;
+using DACS.Models;
 using DACS.Models.EF;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using X.PagedList;
 
 namespace DACS.Areas.Checker.Controllers
@@ -11,13 +14,18 @@ namespace DACS.Areas.Checker.Controllers
     public class PostController : Controller
     {
         private readonly IPost _post;
-        public PostController(IPost post)
+        private readonly ICategory _category;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public PostController(IPost post, UserManager<ApplicationUser> userManager, ICategory category)
         {
+            _userManager = userManager;
             _post = post;
+            _category = category;
         }
         public async Task<IActionResult> Add()
         {
-            var post = await _post.GetAllAsync();
+            var category = await _category.GetAllAsync();
+            ViewBag.Category = new SelectList(category, "Id", "Title");
             return View();
         }
         public async Task<IActionResult> Index(string Searchtext, int? page)
@@ -38,6 +46,7 @@ namespace DACS.Areas.Checker.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(Post post, IFormFile imageUrl)
         {
+            var user = await _userManager.GetUserAsync(User);
             if (ModelState.IsValid)
             {
                 if (imageUrl != null)
@@ -47,11 +56,14 @@ namespace DACS.Areas.Checker.Controllers
                 }
                 post.CreateDate = DateTime.Now;
                 post.ModifiedDate = DateTime.Now;
+                post.CreateBy = user.UserName;
                 post.Alias = Models.Common.Filter.FilterChar(post.Title);
                 await _post.AddAsync(post);
                 return RedirectToAction(nameof(Index));
             }
             // Nếu ModelState không hợp lệ, hiển thị form với dữ liệu đã nhập
+            var category = await _category.GetAllAsync();
+            ViewBag.Category = new SelectList(category, "Id", "Title");
             var posts = await _post.GetAllAsync();
             return View(post);
         }
@@ -66,6 +78,8 @@ namespace DACS.Areas.Checker.Controllers
         }
         public async Task<IActionResult> Update(int id)
         {
+            var category = await _category.GetAllAsync();
+            ViewBag.Category = new SelectList(category, "Id", "Title");
             var post = await _post.GetByIdAsync(id);
             if (post == null)
             {
@@ -88,13 +102,13 @@ namespace DACS.Areas.Checker.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingProduct = await _post.GetByIdAsync(id); // Giả định có phương thức GetByIdAsync
+                var existingPost = await _post.GetByIdAsync(id); // Giả định có phương thức GetByIdAsync
 
 
                 // Giữ nguyên thông tin hình ảnh nếu không có hình mới được tải lên
                 if (imageUrl == null)
                 {
-                    post.ImageUrl = existingProduct.ImageUrl;
+                    post.ImageUrl = existingPost.ImageUrl;
                 }
                 else
                 {
@@ -102,14 +116,14 @@ namespace DACS.Areas.Checker.Controllers
                     post.ImageUrl = await SaveImage(imageUrl);
                 }
                 // Cập nhật các thông tin khác của sản phẩm
-                existingProduct.Title = post.Title;
-                existingProduct.Detail = post.Detail;
-                existingProduct.IsActive = post.IsActive;
-                existingProduct.ModifiedDate = post.ModifiedDate;
-                existingProduct.Alias = Models.Common.Filter.FilterChar(post.Title);
-                existingProduct.ImageUrl = post.ImageUrl;
-
-                await _post.UpdateAsync(existingProduct);
+                existingPost.Title = post.Title;
+                existingPost.Detail = post.Detail;
+                existingPost.IsActive = post.IsActive;
+                existingPost.ModifiedDate = post.ModifiedDate;
+                existingPost.Alias = Models.Common.Filter.FilterChar(post.Title);
+                existingPost.ImageUrl = post.ImageUrl;
+                existingPost.CategoryId = post.CategoryId;
+                await _post.UpdateAsync(existingPost);
 
                 return RedirectToAction(nameof(Index));
             }

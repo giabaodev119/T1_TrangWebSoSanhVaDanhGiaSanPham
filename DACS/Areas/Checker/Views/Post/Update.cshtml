@@ -45,6 +45,10 @@
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
                 <div class="form-group">
+                    <label asp-for="CategoryId" class="control-label">Danh mục</label>
+                    <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Category"></select>
+                </div>
+                <div class="form-group">
                     <label asp-for="Detail" class="control-label">Chi tiết</label>
                     <textarea asp-for="Detail" class="form-control"></textarea></>
                     <span asp-validation-for="Detail" class="text-danger"></span>

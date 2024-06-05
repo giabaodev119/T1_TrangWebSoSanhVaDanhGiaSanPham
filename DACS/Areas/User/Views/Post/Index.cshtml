@@ -3,7 +3,9 @@
 @using X.PagedList;
 
 <link rel="stylesheet" href="~/clients/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
-
+<link href="c:\users\doant\.nuget\packages\bootstrap\5.3.3\contentfiles\any\any\wwwroot\css\bootstrap.rtl.min.css" rel="stylesheet" />
+<link href="c:\users\doant\.nuget\packages\bootstrap\5.3.3\contentfiles\any\any\wwwroot\css\bootstrap.css" rel="stylesheet" />
+<link href="c:\users\doant\.nuget\packages\bootstrap\5.3.3\contentfiles\any\any\wwwroot\css\bootstrap.rtl.css" rel="stylesheet" />
 <style>
     .news_section_container {
         margin-top: 180px;
@@ -15,16 +17,14 @@
 
     .title-news {
         font-size: 24px;
-        border-bottom: 1px solid;
         padding: 15px 0;
-        margin-bottom: 25px;
+        margin-bottom: 15px;
     }
 
     .img-box img {
         max-width: 100%;
         max-height: 100%;
     }
-
 </style>
 
 <div class="container news_section_container">
@@ -33,9 +33,25 @@
             <h1 class="title-news">Bài viết</h1>
         </div>
     </div>
+    <hr></hr>
     <h3 class="nav-item">
-        <a href="/user/post/Add" class="btn btn-primary">Thêm mới</a>
+        <a href="/user/post/Add" class="btn btn-warning">Thêm mới</a>
     </h3>
+    <ul class="nav">
+        <li class="nav-item">
+            <ul class="nav nav-treeview">
+                @foreach (var category in ViewBag.Category)
+                {
+                    <ul class="horizontal-list">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="@Url.Action("Index", "Post", new { categoryId = category.Id })">@category.Title</a>
+                        </li>
+                    </ul>
+                }
+            </ul>
+        </li>
+    </ul>
+   <hr></hr>
     @foreach (var post in Model)
     {
         @if (post.IsActive == true)

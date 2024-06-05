@@ -1,6 +1,8 @@
 ﻿using DACS.Interface;
+using DACS.Models;
 using DACS.Models.EF;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using X.PagedList;
@@ -13,8 +15,10 @@ namespace DACS.Areas.Admin.Controllers
     {
         private readonly IPost _post;
         private readonly ICategory _category;
-        public PostController(IPost post, ICategory category)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public PostController(IPost post, UserManager<ApplicationUser> userManager, ICategory category)
         {
+            _userManager = userManager;
             _post = post;
             _category = category;
         }
@@ -42,6 +46,7 @@ namespace DACS.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(Post post, IFormFile imageUrl)
         {
+            var user = await _userManager.GetUserAsync(User);
             if (ModelState.IsValid)
             {
                 if (imageUrl != null)
@@ -49,6 +54,8 @@ namespace DACS.Areas.Admin.Controllers
                     // Lưu hình ảnh đại diện
                     post.ImageUrl = await SaveImage(imageUrl);
                 }
+                
+                post.CreateBy = user.UserName;
                 post.CreateDate = DateTime.Now;
                 post.ModifiedDate = DateTime.Now;
                 post.Alias = Models.Common.Filter.FilterChar(post.Title);
@@ -72,6 +79,8 @@ namespace DACS.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Update(int id)
         {
+            var category = await _category.GetAllAsync();
+            ViewBag.Category = new SelectList(category, "Id", "Title");
             var post = await _post.GetByIdAsync(id);
             if (post == null)
             {
@@ -94,13 +103,13 @@ namespace DACS.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingProduct = await _post.GetByIdAsync(id); // Giả định có phương thức GetByIdAsync
+                var existingPost = await _post.GetByIdAsync(id); // Giả định có phương thức GetByIdAsync
 
 
                 // Giữ nguyên thông tin hình ảnh nếu không có hình mới được tải lên
                 if (imageUrl == null)
                 {
-                    post.ImageUrl = existingProduct.ImageUrl;
+                    post.ImageUrl = existingPost.ImageUrl;
                 }
                 else
                 {
@@ -108,14 +117,14 @@ namespace DACS.Areas.Admin.Controllers
                     post.ImageUrl = await SaveImage(imageUrl);
                 }
                 // Cập nhật các thông tin khác của sản phẩm
-                existingProduct.Title = post.Title;
-                existingProduct.Detail = post.Detail;
-                existingProduct.IsActive = post.IsActive;
-                existingProduct.ModifiedDate = post.ModifiedDate;
-                existingProduct.Alias = Models.Common.Filter.FilterChar(post.Title);
-                existingProduct.ImageUrl = post.ImageUrl;
-
-                await _post.UpdateAsync(existingProduct);
+                existingPost.Title = post.Title;
+                existingPost.Detail = post.Detail;
+                existingPost.IsActive = post.IsActive;
+                existingPost.ModifiedDate = post.ModifiedDate;
+                existingPost.Alias = Models.Common.Filter.FilterChar(post.Title);
+                existingPost.ImageUrl = post.ImageUrl;
+                existingPost.CategoryId = post.CategoryId;
+                await _post.UpdateAsync(existingPost);
 
                 return RedirectToAction(nameof(Index));
             }
