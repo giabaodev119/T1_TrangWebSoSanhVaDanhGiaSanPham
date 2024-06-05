@@ -71,9 +71,6 @@ namespace DACS.Controllers
                         existingProduct.IsFeature = product1.IsFeature;
                         existingProduct.IsHot = true;
                         existingProduct.IsActive = product1.IsActive;
-                        existingProduct.SeoDescription = product1.SeoDescription;
-                        existingProduct.SeoKeywords = product1.SeoKeywords;
-                        existingProduct.SeoTitle = product1.SeoTitle;
                         existingProduct.ModifiedDate = product1.ModifiedDate;
                         existingProduct.Alias = Models.Common.Filter.FilterChar(product1.Name);
                         existingProduct.ImageUrl = product1.ImageUrl;
@@ -91,9 +88,6 @@ namespace DACS.Controllers
                         existingProduct.IsFeature = product1.IsFeature;
                         existingProduct.IsHot = false;
                         existingProduct.IsActive = product1.IsActive;
-                        existingProduct.SeoDescription = product1.SeoDescription;
-                        existingProduct.SeoKeywords = product1.SeoKeywords;
-                        existingProduct.SeoTitle = product1.SeoTitle;
                         existingProduct.ModifiedDate = product1.ModifiedDate;
                         existingProduct.Alias = Models.Common.Filter.FilterChar(product1.Name);
                         existingProduct.ImageUrl = product1.ImageUrl;

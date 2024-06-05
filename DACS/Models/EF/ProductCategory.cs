@@ -17,9 +17,6 @@ namespace DACS.Models.EF
         public string Name { get; set; }
         public string Description { get; set; }
         public string Icon { get; set; }
-        public string SeoTitle { get; set; }
-        public string SeoDescription { get; set; }
-        public string SeoKeywords { get; set; }
         public ICollection<Product>Products { get; set; }  
     }
 }

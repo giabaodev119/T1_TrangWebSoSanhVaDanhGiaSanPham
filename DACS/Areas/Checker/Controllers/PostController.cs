@@ -104,11 +104,7 @@ namespace DACS.Areas.Checker.Controllers
                 // Cập nhật các thông tin khác của sản phẩm
                 existingProduct.Title = post.Title;
                 existingProduct.Detail = post.Detail;
-                existingProduct.Description = post.Description;
                 existingProduct.IsActive = post.IsActive;
-                existingProduct.SeoDescription = post.SeoDescription;
-                existingProduct.SeoKeywords = post.SeoKeywords;
-                existingProduct.SeoTitle = post.SeoTitle;
                 existingProduct.ModifiedDate = post.ModifiedDate;
                 existingProduct.Alias = Models.Common.Filter.FilterChar(post.Title);
                 existingProduct.ImageUrl = post.ImageUrl;

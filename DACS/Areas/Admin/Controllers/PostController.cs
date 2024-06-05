@@ -2,6 +2,7 @@
 using DACS.Models.EF;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using X.PagedList;
 
 namespace DACS.Areas.Admin.Controllers
@@ -11,13 +12,16 @@ namespace DACS.Areas.Admin.Controllers
     public class PostController : Controller
     {
         private readonly IPost _post;
-        public PostController(IPost post)
+        private readonly ICategory _category;
+        public PostController(IPost post, ICategory category)
         {
             _post = post;
+            _category = category;
         }
         public async Task<IActionResult> Add()
         {
-            var post = await _post.GetAllAsync();
+            var category = await _category.GetAllAsync();
+            ViewBag.Category = new SelectList(category, "Id", "Title");
             return View();
         }
         public async Task<IActionResult> Index(string Searchtext, int? page)
@@ -52,6 +56,8 @@ namespace DACS.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             // Nếu ModelState không hợp lệ, hiển thị form với dữ liệu đã nhập
+            var category = await _category.GetAllAsync();
+            ViewBag.Category = new SelectList(category, "Id", "Title");
             var posts = await _post.GetAllAsync();
             return View(post);
         }
@@ -104,11 +110,7 @@ namespace DACS.Areas.Admin.Controllers
                 // Cập nhật các thông tin khác của sản phẩm
                 existingProduct.Title = post.Title;
                 existingProduct.Detail = post.Detail;
-                existingProduct.Description = post.Description;
                 existingProduct.IsActive = post.IsActive;
-                existingProduct.SeoDescription = post.SeoDescription;
-                existingProduct.SeoKeywords = post.SeoKeywords;
-                existingProduct.SeoTitle = post.SeoTitle;
                 existingProduct.ModifiedDate = post.ModifiedDate;
                 existingProduct.Alias = Models.Common.Filter.FilterChar(post.Title);
                 existingProduct.ImageUrl = post.ImageUrl;

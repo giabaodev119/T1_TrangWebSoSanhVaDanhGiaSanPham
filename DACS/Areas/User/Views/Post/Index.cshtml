@@ -52,9 +52,9 @@
                 </div>
                 <div class="col-md-6">
                     <div class="content-box">
-                        <h3><a title="@post.Title">@post.Title</a></h3>
+                        <h4><a title="@post.Title">@post.Title</a></h4>
                         <div class="description-box">
-                            @post.Description
+                            @Html.Raw(post.Detail)
                         </div>
                     </div>
                 </div>

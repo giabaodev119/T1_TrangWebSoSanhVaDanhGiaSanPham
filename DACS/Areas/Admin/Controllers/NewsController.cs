@@ -108,9 +108,6 @@ namespace DACS.Areas.Admin.Controllers
                 existingProduct.Detail = news.Detail;
                 existingProduct.Description = news.Description;
                 existingProduct.IsActive = news.IsActive;
-                existingProduct.SeoDescription = news.SeoDescription;
-                existingProduct.SeoKeywords = news.SeoKeywords;
-                existingProduct.SeoTitle = news.SeoTitle;
                 existingProduct.ModifiedDate = news.ModifiedDate;
                 existingProduct.Alias = Models.Common.Filter.FilterChar(news.Title);
                 existingProduct.ImageUrl = news.ImageUrl;

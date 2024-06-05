@@ -78,21 +78,6 @@
                     <select asp-for="ProductCategoryId" class="form-control" asp-items="ViewBag.ProductCategory"></select>
                 </div>
                 <div class="form-group">
-                    <label asp-for="SeoTitle" class="control-label"></label>
-                    <input asp-for="SeoTitle" class="form-control" />
-                    <span asp-validation-for="SeoTitle" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="SeoDescription" class="control-label"></label>
-                    <input asp-for="SeoDescription" class="form-control" />
-                    <span asp-validation-for="SeoDescription" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="SeoKeywords" class="control-label"></label>
-                    <input asp-for="SeoKeywords" class="form-control" />
-                    <span asp-validation-for="SeoKeywords" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label class="col-sm-4 col-form-label">Create At</label>
                     <div class="col-sm-8">
                         <input a class="form-control-plaintext" readonly value="@ViewData["CreateAt"]" />

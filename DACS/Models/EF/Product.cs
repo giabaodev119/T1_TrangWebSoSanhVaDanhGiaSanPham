@@ -25,9 +25,6 @@ namespace DACS.Models.EF
         public bool IsHot { get; set; }
         public bool IsActive { get; set; }
         public int ProductCategoryId { get; set; }
-        public string? SeoTitle { get; set; }
-        public string? SeoDescription { get; set; }
-        public string? SeoKeywords { get; set; }
         public virtual ProductCategory? ProductCategory { get; set; }
 
         public ICollection<ProductComment>? ProductComments { get; set; }

@@ -12,13 +12,9 @@ namespace DACS.Models.EF
         [StringLength(150, ErrorMessage = "Không được vượt quá 150 ký tự")]
         public string Title { get; set; }
         public string? Alias { get; set; }
-        public string Description { get; set; }
         public string Detail { get; set; }
         public string? ImageUrl { get; set; }
         public int? CategoryId { get; set; }
-        public string? SeoTitle { get; set; }
-        public string? SeoDescription { get; set; }
-        public string? SeoKeywords { get; set; }
         public bool IsActive { get; set; }
         public virtual Category? Category { get; set; }
 

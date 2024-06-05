@@ -120,9 +120,6 @@ namespace DACS.Areas.Admin.Controllers
                 existingProduct.IsFeature = product.IsFeature;
                 existingProduct.IsHot = product.IsHot;
                 existingProduct.IsActive = product.IsActive;
-                existingProduct.SeoDescription = product.SeoDescription;
-                existingProduct.SeoKeywords = product.SeoKeywords;
-                existingProduct.SeoTitle = product.SeoTitle;
                 existingProduct.ModifiedDate = product.ModifiedDate;
                 existingProduct.Alias = Models.Common.Filter.FilterChar(product.Name);
                 existingProduct.ImageUrl = product.ImageUrl;

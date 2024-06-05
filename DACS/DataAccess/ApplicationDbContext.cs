@@ -15,7 +15,6 @@ namespace DACS.DataAccess
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<Post> Posts { get; set; }
-        public DbSet<SystemSetting> SystemSettings { get; set; }
         public DbSet<ProductCategory> ProductCategory { get; set; }
 
         public DbSet<ProductComment> productComments { get; set; }
