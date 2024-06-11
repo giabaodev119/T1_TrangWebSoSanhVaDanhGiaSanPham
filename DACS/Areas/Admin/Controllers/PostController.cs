@@ -55,7 +55,7 @@ namespace DACS.Areas.Admin.Controllers
                     post.ImageUrl = await SaveImage(imageUrl);
                 }
                 
-                post.CreateBy = user.UserName;
+                post.CreateBy = user.FullName;
                 post.CreateDate = DateTime.Now;
                 post.ModifiedDate = DateTime.Now;
                 post.Alias = Models.Common.Filter.FilterChar(post.Title);
@@ -124,6 +124,8 @@ namespace DACS.Areas.Admin.Controllers
                 existingPost.Alias = Models.Common.Filter.FilterChar(post.Title);
                 existingPost.ImageUrl = post.ImageUrl;
                 existingPost.CategoryId = post.CategoryId;
+                existingPost.CreateBy = post.CreateBy;
+                existingPost.CreateDate = post.CreateDate;
                 await _post.UpdateAsync(existingPost);
 
                 return RedirectToAction(nameof(Index));

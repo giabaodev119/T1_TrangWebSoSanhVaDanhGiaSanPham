@@ -56,7 +56,7 @@ namespace DACS.Areas.Checker.Controllers
                 }
                 post.CreateDate = DateTime.Now;
                 post.ModifiedDate = DateTime.Now;
-                post.CreateBy = user.UserName;
+                post.CreateBy = user.FullName;
                 post.Alias = Models.Common.Filter.FilterChar(post.Title);
                 await _post.AddAsync(post);
                 return RedirectToAction(nameof(Index));
@@ -123,6 +123,8 @@ namespace DACS.Areas.Checker.Controllers
                 existingPost.Alias = Models.Common.Filter.FilterChar(post.Title);
                 existingPost.ImageUrl = post.ImageUrl;
                 existingPost.CategoryId = post.CategoryId;
+                existingPost.CreateBy = post.CreateBy;
+                existingPost.CreateDate = post.CreateDate;
                 await _post.UpdateAsync(existingPost);
 
                 return RedirectToAction(nameof(Index));

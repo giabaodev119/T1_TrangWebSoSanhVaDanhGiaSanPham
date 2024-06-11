@@ -1,0 +1,37 @@
+﻿@model DACS.Models.EF.Post
+
+@{
+    ViewData["Title"] = "Display";
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .post_section_container {
+        margin-top: 180px;
+    }
+
+</style>
+
+
+<div class="container post_section_container">
+    <div class="row row-item-new">
+        <div class="col-md-3">
+            <div class="img-box">
+                <img src="@Model.ImageUrl" class="card-img-top" alt="..."
+                     style="height: 300px">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="user_name">Được tạo bởi: @Model.CreateBy</div>
+        </div>
+        <div class="col-md-6">
+            <div class="content-box">
+                <h4><a title="@Model.Title">@Model.Title</a></h4>
+                <div class="description-box">
+                    @Html.Raw(Model.Detail)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

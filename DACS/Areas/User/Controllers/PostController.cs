@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using X.PagedList;
 
 namespace DACS.Areas.User.Controllers
@@ -37,13 +38,9 @@ namespace DACS.Areas.User.Controllers
             var categories = _context.Categories.ToList();
             ViewBag.Category = categories;
 
-            //var posts = categoryId.HasValue ?
+            var userid = await _userManager.GetUserAsync(User);
+            ViewBag.UserId = userid.Id;
 
-            //    _context.Posts.Where(p => p.CategoryId == categoryId.Value).ToList() :
-
-            //    _context.Posts.ToList();
-
-            //var post = await _post.GetWithIsActiveAsync();
 
 
             var query = _context.Posts.AsQueryable();
@@ -81,7 +78,7 @@ namespace DACS.Areas.User.Controllers
                     // Lưu hình ảnh đại diện
                     post.ImageUrl = await SaveImage(imageUrl);
                 }
-                post.CreateBy = user.UserName;
+                post.CreateBy = user.FullName;
                 post.CreateDate = DateTime.Now;
                 post.ModifiedDate = DateTime.Now;
                 post.Alias = Models.Common.Filter.FilterChar(post.Title);
@@ -106,6 +103,16 @@ namespace DACS.Areas.User.Controllers
             }
             return "/images/" + image.FileName; // Trả về đường dẫn tương đối
         }
+
+        public async Task<IActionResult> Display(int id)
+        {
+            var post = await _post.GetByIdAsync(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            return View(post);
+        }
         public async Task<IActionResult> Update(int id)
         {
             var post = await _post.GetByIdAsync(id);
@@ -114,7 +121,8 @@ namespace DACS.Areas.User.Controllers
                 return NotFound();
             }
             var posts = await _post.GetAllAsync();
-            ViewData["CreateAt"] = post.CreateDate;
+            var category = await _category.GetAllAsync();
+            ViewBag.Category = new SelectList(category, "Id", "Title");
             return View(post);
         }
         // Xử lý cập nhật sản phẩm
@@ -130,13 +138,13 @@ namespace DACS.Areas.User.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingProduct = await _post.GetByIdAsync(id); // Giả định có phương thức GetByIdAsync
+                var existingPost = await _post.GetByIdAsync(id); // Giả định có phương thức GetByIdAsync
 
 
                 // Giữ nguyên thông tin hình ảnh nếu không có hình mới được tải lên
                 if (imageUrl == null)
                 {
-                    post.ImageUrl = existingProduct.ImageUrl;
+                    post.ImageUrl = existingPost.ImageUrl;
                 }
                 else
                 {
@@ -144,14 +152,15 @@ namespace DACS.Areas.User.Controllers
                     post.ImageUrl = await SaveImage(imageUrl);
                 }
                 // Cập nhật các thông tin khác của sản phẩm
-                existingProduct.Title = post.Title;
-                existingProduct.Detail = post.Detail;
-                existingProduct.IsActive = post.IsActive;
-                existingProduct.ModifiedDate = post.ModifiedDate;
-                existingProduct.Alias = Models.Common.Filter.FilterChar(post.Title);
-                existingProduct.ImageUrl = post.ImageUrl;
-
-                await _post.UpdateAsync(existingProduct);
+                existingPost.Title = post.Title;
+                existingPost.Detail = post.Detail;
+                existingPost.IsActive = post.IsActive;
+                existingPost.ModifiedDate = post.ModifiedDate;
+                existingPost.Alias = Models.Common.Filter.FilterChar(post.Title);
+                existingPost.ImageUrl = post.ImageUrl;
+                existingPost.CreateBy = post.CreateBy;
+                existingPost.CreateDate = post.CreateDate;
+                await _post.UpdateAsync(existingPost);
 
                 return RedirectToAction(nameof(Index));
             }

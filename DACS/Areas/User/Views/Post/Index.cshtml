@@ -34,9 +34,13 @@
         </div>
     </div>
     <hr></hr>
-    <h3 class="nav-item">
-        <a href="/user/post/Add" class="btn btn-warning">Thêm mới</a>
-    </h3>
+
+    <ul class="row">
+        <li class="nav-item">
+            <a href="/user/post/Add" class="btn btn-warning">Thêm mới</a>
+        </li>
+    </ul>
+    
     <ul class="nav">
         <li class="nav-item">
             <ul class="nav nav-treeview">
@@ -59,16 +63,15 @@
             <div class="row row-item-new">
                 <div class="col-md-3">
                     <div class="img-box">
-                        <img src="@post.ImageUrl" class="card-img-top" alt="..."
-                             style="height: 300px">
+                        <img src="@post.ImageUrl" class="card-img-top" alt="..." style="height: 300px">
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="user_name">@post.CreateBy</div>
+                    <div class="user_name">Được tạo bởi: @post.CreateBy</div>
                 </div>
                 <div class="col-md-6">
                     <div class="content-box">
-                        <h4><a title="@post.Title">@post.Title</a></h4>
+                        <h4><a asp-action="Display" asp-route-id="@post.Id" title="@post.Title">@post.Title</a></h4>
                         <div class="description-box">
                             @Html.Raw(post.Detail)
                         </div>
