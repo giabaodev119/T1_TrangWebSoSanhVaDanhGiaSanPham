@@ -70,8 +70,8 @@
                             <td>@user.UserName</td>
                             <td>@user.Email</td>
                             <td>
-                                @*  <a asp-action="Edit" asp-route-id="@user.Id">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@user.Id">Delete</a> *@
+                                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
                                 <form asp-action="LockAccount" method="post" style="display: inline;">
                                     <input type="hidden" name="id" value="@user.Id" />
                                     <input type="submit" value="Lock" />
@@ -80,7 +80,6 @@
                                     <input type="hidden" name="id" value="@user.Id" />
                                     <input type="submit" value="Unlock" />
                                 </form>
-                                <a class="forgotPassword" asp-action="ForgotPassword" data-email="@user.Email">Reset Password</a>
                             </td>
                         </tr>
                     }
